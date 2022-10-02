@@ -1,5 +1,5 @@
-# AlkemyWallet
-
+# Alkemy Challenge Wallet C#
+El proyecto está desarrollado con Net Core 6
 
 ## **Especificación de la Arquitectura**
 
