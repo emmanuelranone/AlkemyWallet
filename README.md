@@ -27,11 +27,11 @@ Es nuestra capa principal, en ella encontramos varios subniveles
 *	Models: se definirán los modelos que necesitemos para el desarrollo. Dentro de esta carpeta encontramos DTO, para definirlos ahí dentro.
 *	Services: Se incluirán todos los servicios solicitados por el proyecto.
 
-## **Especificación de GIT **
+## **Especificación de GIT**
 
 * Se deberán crear las ramas a partir de DEV. La nomenclatura para el nombre de las ramas será la sigueinte: Feature/Us-xx (donde xx corresponde con el número de historia)
 * El título del pull request debe contener el título de la historia tomada.
 * Los commits deben llevar descripciones.
 * El pull request solo debe contener cambios relacionados con la historia tomada.
 * Se deben agregar capturas de pantalla como evidencia en la descripción de los puul request.
-* 
+
