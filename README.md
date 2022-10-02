@@ -1,7 +1,7 @@
 # AlkemyWallet
 
+
 ## **Especificación de la Arquitectura**
-El proyecto está desarrollado con Net Core 6
 
 ### **Capa Controller**
 Será el punto de entrada a la API. En los controladores deberíamos definir la menor cantidad de lógica posible y utilizarlos como un pasamanos con la capa de servicios.
