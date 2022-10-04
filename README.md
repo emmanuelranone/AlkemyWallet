@@ -15,9 +15,6 @@ En este nivel de la arquitectura definiremos todas las entidades de la base de d
 ### **Capa Repositories**
 En esta capa definiremos las clases correspondientes para realizar el repositorio genérico y la unidad de trabajo
 
-### **Capa Controller**
-Será el punto de entrada a la API. En los controladores deberíamos definir la menor cantidad de lógica posible y utilizarlos como un pasamanos con la capa de servicios.
-
 ### **Capa Core**
 Es nuestra capa principal, en ella encontramos varios subniveles
 
@@ -33,5 +30,5 @@ Es nuestra capa principal, en ella encontramos varios subniveles
 * El título del pull request debe contener el título de la historia tomada.
 * Los commits deben llevar descripciones.
 * El pull request solo debe contener cambios relacionados con la historia tomada.
-* Se deben agregar capturas de pantalla como evidencia en la descripción de los puul request.
+* Se deben agregar capturas de pantalla como evidencia en la descripción de los pool request.
 
