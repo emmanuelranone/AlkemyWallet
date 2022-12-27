@@ -11,8 +11,8 @@ namespace eWallet_API.Entities
         public double Money { get; set; }
         [Column("isBlocked")]
         public bool IsBlocked { get; set; }
-        [ForeignKey("User")]
+        [ForeignKey("User"), Column("userId")]
         public int User_Id { get; set; }
-        public virtual User User { get; set; }
+        public User User { get; set; }
     }
 }
