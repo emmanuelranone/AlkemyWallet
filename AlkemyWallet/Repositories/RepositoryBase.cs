@@ -46,7 +46,8 @@ namespace AlkemyWallet.Repositories
 
         public IEnumerable<T> GetAll()
         {
-            var entities = _entities.AsQueryable();
+            List<T> entities = new List<T>();
+            entities = _entities.ToList();
             return entities;
         }
 
