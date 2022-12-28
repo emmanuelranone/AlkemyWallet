@@ -8,10 +8,10 @@ namespace AlkemyWallet.Entities
     public class User : EntityBase
     {
         [Column("first_name")]
-        public string FirstName { get; set; }
+        public string? FirstName { get; set; }
 
         [Column("last_name")]
-        public string LastName { get; set; }
+        public string? LastName { get; set; }
 
         [Column("email")]
         [EmailAddress]
