@@ -1,5 +1,4 @@
 ﻿using AlkemyWallet.Entities;
-using eWallet_API.Entities;
 using Microsoft.EntityFrameworkCore;
 using System;
 
@@ -22,9 +21,9 @@ namespace AlkemyWallet.DataAccess
         {
             // seed roles acá
             modelBuilder.SeedUsers();
-            // seed transactions
-            modelBuilder.SeedTransactions();
             modelBuilder.SeedAccounts();
+            modelBuilder.SeedTransactions();
+            
         }
     }
 }
