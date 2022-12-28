@@ -13,7 +13,7 @@ namespace AlkemyWallet.DataAccess
                 );
         }
 
-        public static void SeedTransaction(this ModelBuilder modelBuilder)
+        public static void SeedTransactions(this ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Transaction>().HasData(
                 new Transaction()
