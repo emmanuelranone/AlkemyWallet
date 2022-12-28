@@ -11,7 +11,7 @@ namespace AlkemyWallet.DataAccess
                 new Role { Id = 1, Name = "Admin", Description = "Usuario Administrador" },
                 new Role { Id = 2, Name = "Regular", Description = "Usuario Regular" }
                 );
-        }​
+        }
 
         public static void SeedUsers(this ModelBuilder modelBuilder)
         {
@@ -24,27 +24,27 @@ namespace AlkemyWallet.DataAccess
         public static void SeedTransactions(this ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Transaction>().HasData(
-                new Transaction()
+                new Transaction
                 {
                     Id = 1,
                     Amount = 1234.32m,
                     Concept = "Varios",
                     Date = DateTime.Parse("10/12/2022"),
                     Type = "payment",
-                    Account_id = 1,
-                    User_id = 1,
-                    To_account_id = 2
+                    AccountId = 1,
+                    UserId = 1,
+                    ToAccountId = 2
                 },
-                new Transaction()
+                new Transaction
                 {
                     Id = 2,
                     Amount = 4566.12m,
                     Concept = "Varios",
                     Date = DateTime.Parse("15/12/2022"),
                     Type = "payment",
-                    Account_id = 2,
-                    User_id = 2,
-                    To_account_id = 1
+                    AccountId = 2,
+                    UserId = 2,
+                    ToAccountId = 1
                 }
             );
         }
