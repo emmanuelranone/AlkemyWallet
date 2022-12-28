@@ -1,7 +1,17 @@
 using AlkemyWallet.Core.Interfaces;
 using AlkemyWallet.Core.Services;
+using AlkemyWallet.DataAccess;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
+using System;
 
 var builder = WebApplication.CreateBuilder(args);
+ConfigurationManager configuration = builder.Configuration;
+
+// For Entity Framework
+builder.Services.AddDbContext<WalletDbContext>(options => options.UseSqlServer(configuration.GetConnectionString("DevConnection")));
+
+
 
 // Add services to the container.
 
