@@ -4,11 +4,11 @@ namespace AlkemyWallet.Repositories.Interfaces
 {
     public interface IRepositoryBase<T> where T : EntityBase
     {
-        Task<T> Add(T entity);
-        IEnumerable<T> GetAll();      
-        Task<T> GetById(int id);
-        Task<T> Update(T entity);
-        Task<bool> Delete(int id);
-        
+        Task<T> AddAsync(T entity);
+        Task<List<T>> GetAllAsync();      
+        Task<T> GetByIdAsync(int id);
+        Task<T> UpdateAsync(T entity);
+        Task<bool> DeleteSoft(int id);
+        Task<int> Delete(int id);
     }
 }

@@ -1,5 +1,4 @@
 ﻿using AlkemyWallet.Entities;
-using eWallet_API.Entities;
 using Microsoft.EntityFrameworkCore;
 using System;
 
@@ -17,14 +16,12 @@ namespace AlkemyWallet.DataAccess
         public virtual DbSet<Transaction> Transactions { get; set; }
         public virtual DbSet<Account> Accounts { get; set; }
 
-
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            // seed roles acá
+            modelBuilder.SeedRoles();
             modelBuilder.SeedUsers();
-            // seed transactions
-            modelBuilder.SeedTransactions();
             modelBuilder.SeedAccounts();
+            modelBuilder.SeedTransactions();
         }
     }
 }

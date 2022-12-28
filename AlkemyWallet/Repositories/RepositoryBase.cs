@@ -15,7 +15,7 @@ namespace AlkemyWallet.Repositories
             _dbContext = dbContext;
             _entities = dbContext.Set<T>();
         }
-        public async Task<T> GetById(int id)
+        public async Task<T> GetByIdAsync(int id)
         {
             var entity = await _entities.FindAsync(id);
             if ((entity == null))
@@ -25,7 +25,7 @@ namespace AlkemyWallet.Repositories
             return entity;
         }
 
-        public async Task<bool> Delete(int id)
+        public async Task<bool> DeleteSoft(int id)
         {
             try{
                 var entity = await _entities.FindAsync(id);
@@ -44,21 +44,37 @@ namespace AlkemyWallet.Repositories
             }
         }
 
-        public IEnumerable<T> GetAll()
+        public async Task<int> Delete(int id)
         {
-            List<T> entities = new List<T>();
-            entities = _entities.ToList();
-            return entities;
+            try
+            {
+                var entity = await _entities.FindAsync(id);
+                if(entity == null){
+                    return 0;
+                }else{
+                    _entities.Remove(entity);
+                    return id;
+                }                
+            }
+            catch (Exception e)
+            {
+                throw new Exception("Error on Repository.Delete", e);
+            }
+        }
+
+        public async Task<List<T>> GetAllAsync()
+        {
+            return await _entities.ToListAsync();
         }
 
 
-        public async Task<T> Update(T entity)
+        public async Task<T> UpdateAsync(T entity)
         {
-            var result = _dbContext.Entry(entity).State = EntityState.Modified;
+            _dbContext.Entry(entity).State = EntityState.Modified;
             return await Task.FromResult(entity);
         }
 
-        public async Task<T> Add(T entity)
+        public async Task<T> AddAsync(T entity)
         {
             var result = await _entities.AddAsync(entity);
             return result.Entity;
