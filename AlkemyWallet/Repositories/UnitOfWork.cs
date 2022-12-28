@@ -10,8 +10,10 @@ namespace AlkemyWallet.Repositories
         private readonly WalletDbContext _dbContext;
 
         private readonly IRepositoryBase<Account> _accountRepository;
+        private readonly IRepositoryBase<Transaction> _transactionRepository;
 
         public IRepositoryBase<Account> AccountRepository => _accountRepository ?? new RepositoryBase<Account>(_dbContext);
+        public IRepositoryBase<Transaction> TransactionRepository => _transactionRepository ?? new RepositoryBase<Transaction>(_dbContext);
 
         public UnitOfWork(WalletDbContext dbContext)
         {
