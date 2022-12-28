@@ -1,7 +1,6 @@
-﻿using AlkemyWallet.Entities;
-using System.ComponentModel.DataAnnotations.Schema;
+﻿using System.ComponentModel.DataAnnotations.Schema;
 
-namespace eWallet_API.Entities
+namespace AlkemyWallet.Entities
 {
     public class Account : EntityBase
     {
