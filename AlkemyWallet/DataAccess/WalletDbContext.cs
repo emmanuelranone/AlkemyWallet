@@ -20,8 +20,6 @@ namespace AlkemyWallet.DataAccess
         {
             // seed roles acá
             modelBuilder.SeedUsers();
-            // seed transactions
-            modelBuilder.SeedTransactions();
         }
     }
 }
