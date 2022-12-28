@@ -1,16 +1,29 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using AlkemyWallet.Core.Interfaces;
+using AlkemyWallet.Core.Models.DTO;
+using AlkemyWallet.Entities;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 
 namespace AlkemyWallet.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    //[Authorize("Admin, Regular")]
     public class AccountController : ControllerBase
     {
+        private readonly IAccountService _accountService;
+
+        public AccountController(IAccountService accountService)
+        {
+            _accountService = accountService;
+        }
+
         // GET: api/<AccountController>
         [HttpGet]
-        public IEnumerable<string> Get()
+        //[Authorize("Admin")]
+        public async Task<IEnumerable<AccountDTO>> Get()
         {
-            return new string[] { "value1", "value2" };
+            return await _accountService.GetAllAsync();
         }
 
         // GET api/<AccountController>/5

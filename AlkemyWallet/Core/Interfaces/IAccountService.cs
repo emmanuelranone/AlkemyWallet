@@ -4,6 +4,6 @@ namespace AlkemyWallet.Core.Interfaces
 {
     public interface IAccountService
     {
-        IEnumerable<AccountDTO> GetAll();
+        Task<IEnumerable<AccountDTO>> GetAllAsync();
     }
 }

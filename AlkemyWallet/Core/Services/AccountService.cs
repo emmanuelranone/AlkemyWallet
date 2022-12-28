@@ -14,9 +14,9 @@ namespace AlkemyWallet.Core.Services
             _unitOfWork = unitOfWork;
         }
 
-        public IEnumerable<AccountDTO> GetAll()
+        public async Task<IEnumerable<AccountDTO>> GetAllAsync()
         {
-            var accounts = _unitOfWork.AccountRepository.GetAll();
+            var accounts = await _unitOfWork.AccountRepository.GetAllAsync();
             var accountsDTO = new List<AccountDTO>();
 
             foreach (var account in accounts)
