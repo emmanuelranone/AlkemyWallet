@@ -9,6 +9,8 @@ var builder = WebApplication.CreateBuilder(args);
 ConfigurationManager configuration = builder.Configuration;
 
 // For Entity Framework
+builder.Services.AddScoped<IAccountService, AccountService>();
+
 builder.Services.AddDbContext<WalletDbContext>(options => options.UseSqlServer(configuration.GetConnectionString("DevConnection")));
 
 
