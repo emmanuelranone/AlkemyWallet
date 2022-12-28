@@ -1,6 +1,6 @@
 ﻿using AlkemyWallet.DataAccess;
 using AlkemyWallet.Repositories.Interfaces;
-using eWallet_API.Entities;
+using AlkemyWallet.Entities;
 using System.Diagnostics;
 
 namespace AlkemyWallet.Repositories

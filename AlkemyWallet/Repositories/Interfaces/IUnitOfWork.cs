@@ -1,4 +1,4 @@
-﻿using eWallet_API.Entities;
+﻿using AlkemyWallet.Entities;
 
 namespace AlkemyWallet.Repositories.Interfaces
 {
