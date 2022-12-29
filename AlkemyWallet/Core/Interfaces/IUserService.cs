@@ -1,6 +1,12 @@
-﻿namespace AlkemyWallet.Core.Interfaces
+﻿using AlkemyWallet.Core.Models.DTO;
+using AlkemyWallet.Entities;
+
+namespace AlkemyWallet.Core.Interfaces
 {
     public interface IUserService
     {
+        Task<IEnumerable<User>> GetAllAsync();
+        Task<IEnumerable<UserDto>> GetAllDtoAsync();
+
     }
 }

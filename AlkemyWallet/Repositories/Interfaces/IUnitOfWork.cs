@@ -6,6 +6,7 @@ namespace AlkemyWallet.Repositories.Interfaces
     {
         IRepositoryBase<Account> AccountRepository { get; }
         IRepositoryBase<Transaction> TransactionRepository { get; }
+        IRepositoryBase<User> UserRepository { get; }
 
         void SaveChanges();
         Task SaveChangesAsync();
