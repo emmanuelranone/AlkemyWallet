@@ -13,6 +13,7 @@ ConfigurationManager configuration = builder.Configuration;
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 
 // For Entity Framework
+builder.Services.AddScoped<IAccountService, AccountService>();
 
 builder.Services.AddDbContext<WalletDbContext>(options => options.UseSqlServer(configuration.GetConnectionString("DevConnection")));
 
