@@ -19,6 +19,29 @@ namespace AlkemyWallet.DataAccess
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            base.OnModelCreating(modelBuilder);
+
+            modelBuilder.Entity<Transaction>()
+                .HasKey(t => new { t.Id });
+
+            modelBuilder.Entity<Transaction>()
+                .HasOne(x => x.User)
+                .WithMany()
+                .HasForeignKey(x => x.UserId)
+                .OnDelete(DeleteBehavior.ClientSetNull);
+
+            modelBuilder.Entity<Transaction>()
+                .HasOne(x => x.Account)
+                .WithMany()
+                .HasForeignKey(x => x.AccountId)
+                .OnDelete(DeleteBehavior.ClientSetNull);
+
+            modelBuilder.Entity<Transaction>()
+                .HasOne(x => x.ToAccount)
+                .WithMany()
+                .HasForeignKey(x => x.ToAccountId)
+                .OnDelete(DeleteBehavior.ClientSetNull);
+
             modelBuilder.SeedRoles();
             modelBuilder.SeedUsers();
             modelBuilder.SeedAccounts();
