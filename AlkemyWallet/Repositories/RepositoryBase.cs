@@ -62,7 +62,7 @@ namespace AlkemyWallet.Repositories
             }
         }
 
-        public async Task<List<T>> GetAllAsync()
+        public async Task<IEnumerable<T>> GetAllAsync()
         {
             return await _entities.ToListAsync();
         }
