@@ -9,17 +9,24 @@ namespace AlkemyWallet.Controllers
     [Route("[controller]")]
     public class UserController : ControllerBase
     {
-        private readonly IUserService userService;
+        private readonly IUserService _userService;
 
-        public UserController(IUserService _userService)
+        public UserController(IUserService userService)
         {
-            userService = _userService;
+            _userService = userService;
         }
 
         [HttpGet]
-        public IActionResult GetUsers()
+        public async Task<IActionResult> GetUsers()
         {
-            return Ok();
+            return Ok(await _userService.GetAllAsync());
+        }
+
+        [HttpGet]
+        [Route("usersDto")]
+        public async Task<IActionResult> GetUsersDto()
+        {
+            return Ok(await _userService.GetAllDtoAsync());
         }
     }
 }

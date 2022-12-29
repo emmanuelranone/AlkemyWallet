@@ -1,11 +1,10 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
+﻿using AlkemyWallet.Entities;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.DataAnnotations;
-using Microsoft.EntityFrameworkCore;
 
-namespace AlkemyWallet.Entities
+namespace AlkemyWallet.Core.Models.DTO
 {
-    [Index(nameof(Email), IsUnique = true)]
-    public class User : EntityBase
+    public class UserDto
     {
         [Column("first_name")]
         public string FirstName { get; set; }
@@ -28,6 +27,5 @@ namespace AlkemyWallet.Entities
         [Column("rol_Id")]
         [ForeignKey("Role")]
         public int RoleId { get; set; }
-        public Role Role { get; set; }
     }
 }
