@@ -9,11 +9,11 @@ namespace AlkemyWallet.Controllers
     [Route("api/[controller]")]
     [ApiController]
     //[Authorize("Admin, Regular")]
-    public class AccountController : ControllerBase
+    public class AccountsController : ControllerBase
     {
         private readonly IAccountService _accountService;
 
-        public AccountController(IAccountService accountService)
+        public AccountsController(IAccountService accountService)
         {
             _accountService = accountService;
         }
