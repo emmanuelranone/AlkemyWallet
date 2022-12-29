@@ -11,13 +11,14 @@ namespace AlkemyWallet.Core.Mapper
     {
         public static TransactionDTO tMapper (Transaction tEntity)
         {
-            TransactionDTO tDTO = new TransactionDTO();
-
-            tDTO.Amount = tEntity.Amount;
-            tDTO.Concept = tEntity.Concept;
-            tDTO.Date = tEntity.Date;
-            tDTO.Type = tEntity.Type;
-            tDTO.ToAccountId = tEntity.ToAccountId;
+            TransactionDTO tDTO = new TransactionDTO()
+            {
+                Amount = tEntity.Amount,
+                Concept = tEntity.Concept,
+                Date = tEntity.Date,
+                Type = tEntity.Type,
+                ToAccountId = tEntity.ToAccountId
+            };
 
             return tDTO;
         }
