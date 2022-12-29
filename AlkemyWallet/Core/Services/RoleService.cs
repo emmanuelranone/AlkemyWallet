@@ -17,7 +17,6 @@ public class RoleService : IRoleService
     public async Task<IEnumerable<RoleDTO>> GetAllAsync()
     {
         var roles = await _unitOfWork.RoleRepository.GetAllAsync();
-        //return roles.Cast<RoleDTO>().ToList();
 
         var rolesDTO = new List<RoleDTO>();
 
