@@ -17,20 +17,22 @@ namespace AlkemyWallet.Entities
         [Column("type")]
         public string Type { get; set; }
 
-        [Column("account_id")]
-        [ForeignKey("AccountId")]
-        public int AccountId { get; set; }
-        public Account Account { get; set; }
-
         [Column("user_id")]
-        [ForeignKey("UserId")]
+        [ForeignKey("User")]
         public int UserId { get; set; }
 
+        public virtual User User { get; set; }
+
+        [Column("account_id")]
+        [ForeignKey("Account")]
+        public int? AccountId { get; set; }
+
+        public virtual Account Account { get; set; }
+
         [Column("to_account_id")]
+        [ForeignKey("ToAccount")]
         public int ToAccountId { get; set; }
 
-        
-        //[ForeignKey("UserId")]
-        //public User User { get; set; }        
+        public virtual Account ToAccount { get; set; }
     }
 }
