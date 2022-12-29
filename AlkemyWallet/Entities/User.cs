@@ -23,7 +23,7 @@ namespace AlkemyWallet.Entities
         public string Password { get; set; }
 
         [Column("points")]
-        public int? Points { get; set; }
+        public int Points { get; set; } = 0;
 
         [Column("rol_Id")]
         [ForeignKey("Role")]
