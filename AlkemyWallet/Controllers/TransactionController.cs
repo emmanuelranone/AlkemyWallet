@@ -8,7 +8,7 @@ using System.Data;
 namespace AlkemyWallet.Controllers
 {
     [ApiController]
-    [Route("api/[controller]")]
+    [Route("[controller]")]
     public class TransactionController : ControllerBase
     {
         private readonly ITransactionService _transactionService;
@@ -19,6 +19,7 @@ namespace AlkemyWallet.Controllers
         }
 
         [HttpGet]
+        [Authorize("Regular")]
         public async Task<List<TransactionDTO>> Get()
         {
             return await _transactionService.GetAllAsync();

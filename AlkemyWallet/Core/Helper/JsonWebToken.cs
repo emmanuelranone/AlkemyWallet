@@ -8,17 +8,17 @@ using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using AlkemyWallet.Entities;
 
-namespace AlkemyWallet.Utilities
+namespace AlkemyWallet.Core.Helper
 {
     public class JsonWebToken
     {
         private readonly IConfiguration _configuration;
-        
+
         public JsonWebToken(IConfiguration configuration)
         {
             _configuration = configuration;
         }
-        
+
         public JwtSecurityToken CreateToken(User user)
         {
             if (user != null)
@@ -32,8 +32,8 @@ namespace AlkemyWallet.Utilities
 
                 //security key
                 var authSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["JWT:Secret"]));
-                var credentials = new SigningCredentials(authSigningKey,SecurityAlgorithms.HmacSha256);
-            
+                var credentials = new SigningCredentials(authSigningKey, SecurityAlgorithms.HmacSha256);
+
                 var token = new JwtSecurityToken(
                     issuer: _configuration["JWT:ValidIssuer"],
                     audience: _configuration["JWT:ValidAudience"],

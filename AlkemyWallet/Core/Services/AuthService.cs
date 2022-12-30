@@ -1,14 +1,7 @@
 ﻿using AlkemyWallet.Core.Interfaces;
-using AlkemyWallet.DataAccess;
-using AlkemyWallet.Entities;
 using AlkemyWallet.Repositories.Interfaces;
-using AlkemyWallet.Utilities;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.IdentityModel.Tokens;
+using AlkemyWallet.Core.Helper;
 using System.IdentityModel.Tokens.Jwt;
-using System.Security.Claims;
-using System.Text;
 
 namespace AlkemyWallet.Core.Services
 {
