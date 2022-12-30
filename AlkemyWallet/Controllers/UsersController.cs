@@ -17,7 +17,7 @@ namespace AlkemyWallet.Controllers
         }
 
         [HttpGet]
-        //[Authorize("Admin")]
+        [Authorize("Admin")]
         public async Task<IActionResult> Get()
         {
             return Ok(await _userService.GetAllDtoAsync());

@@ -19,6 +19,7 @@ namespace AlkemyWallet.Controllers
         }
 
         [HttpGet]
+        [Authorize("Regular")]
         public async Task<List<TransactionDTO>> Get()
         {
             return await _transactionService.GetAllAsync();

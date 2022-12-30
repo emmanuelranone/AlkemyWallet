@@ -20,7 +20,7 @@ namespace AlkemyWallet.Controllers
 
         // GET: api/<AccountController>
         [HttpGet]
-        //[Authorize("Admin")]
+        [Authorize("Admin")]
         public async Task<IEnumerable<AccountDTO>> Get()
         {
             return await _accountService.GetAllAsync();
