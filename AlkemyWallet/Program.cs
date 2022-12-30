@@ -57,6 +57,8 @@ builder.Services.AddAuthentication(options =>
 builder.Services.AddAutoMapper(typeof(EntityMapper));
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<ITransactionService, TransactionService>();
+builder.Services.AddScoped<IAuthService, AuthService>();
+
 
 var app = builder.Build();
 
