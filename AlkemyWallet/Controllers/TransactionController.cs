@@ -8,7 +8,7 @@ using System.Data;
 namespace AlkemyWallet.Controllers
 {
     [ApiController]
-    [Route("api/[controller]")]
+    [Route("[controller]")]
     public class TransactionController : ControllerBase
     {
         private readonly ITransactionService _transactionService;

@@ -1,10 +1,11 @@
 ﻿using AlkemyWallet.Core.Interfaces;
 using AlkemyWallet.Core.Models.DTO;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace AlkemyWallet.Controllers;
 
-[Route("api/[controller]")]
+[Route("[controller]")]
 [ApiController]
 public class RolesController : ControllerBase
 {
@@ -16,7 +17,7 @@ public class RolesController : ControllerBase
 	}
 
     [HttpGet]
-    //[Authorize("Admin")]
+    [Authorize("Admin")]
     public async Task<IEnumerable<RoleDTO>> Get()
     {
         return await _roleService.GetAllAsync();
