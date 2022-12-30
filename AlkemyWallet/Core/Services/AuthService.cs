@@ -2,6 +2,7 @@
 using AlkemyWallet.DataAccess;
 using AlkemyWallet.Entities;
 using AlkemyWallet.Repositories.Interfaces;
+using AlkemyWallet.Utilities;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
@@ -13,58 +14,31 @@ namespace AlkemyWallet.Core.Services
 {
     public class AuthService : IAuthService
     {
-        private readonly IConfiguration _configuration;
         private readonly IUnitOfWork _unitOfWork;
+        private readonly IConfiguration _configuration;
         
-        public AuthService(IConfiguration configuration, IUnitOfWork unitOfWork)
+        public AuthService(IUnitOfWork unitOfWork, IConfiguration configuration)
         {
-            _configuration = configuration;
             _unitOfWork = unitOfWork;
+            _configuration = configuration;
         }
-
+        
         public async Task<string> Login(string email, string password)
         {
-            var user = await CheckCredentialsAsync(email, password);
-
-            if (user != null)
-            {
-                var authClaims = new List<Claim>
-                    {
-                    new Claim(ClaimTypes.Email, user.Email),
-                    new Claim(ClaimTypes.Role, user.Role.Name),
-                    new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
-                    };
-
-                var token = GetToken(authClaims);
-
-                return new JwtSecurityTokenHandler().WriteToken(token);
-            }
-
-            return null;
-        }
-
-        private async Task<User> CheckCredentialsAsync(string email, string password)
-        {
-            return await _unitOfWork.UserRepository
+            //Validading credentials
+            var user = await _unitOfWork.UserRepository
                 .GetFirstOrDefaultAsync(
                 u => u.Email == email && 
                 u.Password == password, null, "Role");
-        }
+            
+            //JsonWebToken Instance
+            var jwt = new JsonWebToken(_configuration);
 
-        public JwtSecurityToken GetToken(List<Claim> authClaims)
-        {
-            var authSigningKey = new
-            SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["JWT:Secret"]));
-            var token = new JwtSecurityToken(
-            issuer: _configuration["JWT:ValidIssuer"],
-            audience: _configuration["JWT:ValidAudience"],
-            expires: DateTime.Now.AddHours(3),
-            claims: authClaims,
-            signingCredentials: new SigningCredentials(authSigningKey,
-            SecurityAlgorithms.HmacSha256)
-            );
-            return token;
-        }
+            //If user is not null, create token.    
+            var token = jwt.CreateToken(user);
 
+            //Returning token to controller
+            return new JwtSecurityTokenHandler().WriteToken(token);    
+        }
     }
 }
