@@ -2,6 +2,7 @@
 using AlkemyWallet.Entities;
 using AlkemyWallet.Repositories.Interfaces;
 using Microsoft.EntityFrameworkCore;
+using System.Linq.Expressions;
 
 namespace AlkemyWallet.Repositories
 {
@@ -78,6 +79,54 @@ namespace AlkemyWallet.Repositories
         {
             var result = await _entities.AddAsync(entity);
             return result.Entity;
+        }
+
+        public async Task<IEnumerable<T>> GetAsync(Expression<Func<T, bool>> whereCondition = null,
+            Func<IQueryable<T>, IOrderedQueryable<T>> orderBy = null,
+            string includeProperties = "")
+        {
+            IQueryable<T> query = _entities;
+
+            if (whereCondition != null)
+            {
+                query = query.Where(whereCondition);
+            }
+
+            foreach (var includeProperty in includeProperties.Split
+                (new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries))
+            {
+                query = query.Include(includeProperty);
+            }
+
+            if (orderBy != null)
+            {
+                return await orderBy(query).ToListAsync();
+            }
+            else
+            {
+                return await query.ToListAsync();
+            }
+        }
+
+        public async Task<T> GetFirstOrDefaultAsync(Expression<Func<T, bool>> whereCondition = null,
+            Func<IQueryable<T>, IOrderedQueryable<T>> orderBy = null,
+            string includeProperties = "")
+        {
+            IQueryable<T> query = _entities;
+
+            if (whereCondition != null)
+            {
+                query = query.Where(whereCondition);
+            }
+
+            foreach (var includeProperty in includeProperties.Split
+                (new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries))
+            {
+                query = query.Include(includeProperty);
+            }
+
+            return await query.FirstOrDefaultAsync();
+
         }
     }
 }
