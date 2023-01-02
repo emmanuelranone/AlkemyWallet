@@ -28,7 +28,7 @@ namespace AlkemyWallet.Controllers
 
         // GET api/<AccountController>/5
         [HttpGet("{id}")]
-        //[Authorize("Admin")]
+        [Authorize("Admin")]
         public async Task<AccountDTO> Get(int id)
         {
             return await _accountService.GetByIdAsync(id);
