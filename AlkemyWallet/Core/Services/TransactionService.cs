@@ -1,8 +1,3 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Linq.Expressions;
-using System.Threading.Tasks;
 using AlkemyWallet.Core.Interfaces;
 using AlkemyWallet.Core.Mapper;
 using AlkemyWallet.Core.Models.DTO;
@@ -39,7 +34,7 @@ namespace AlkemyWallet.Core.Services
             return transactionsDTO;            
         }
 
-        public async Task<TransactionDTO> GetById(int id, int UserId)
+        public async Task<TransactionDetailsDTO> GetById(int id, int UserId)
         {
             var transaction = await _unitOfWork.TransactionRepository.GetFirstOrDefaultAsync(
                 t => t.Id == id &&
@@ -47,7 +42,7 @@ namespace AlkemyWallet.Core.Services
             if (transaction == null)
                 return null;
             else
-                return TransactionMapper.tMapper(transaction);
+                return TransactionMapper.TransactionToTransactionById(transaction);
         }
 
         
