@@ -7,7 +7,7 @@ using System.IdentityModel.Tokens.Jwt;
 
 namespace AlkemyWallet.Controllers
 {
-    [Route("auth")]
+    [Route("[controller]")]
     [ApiController]
     public class AuthController : ControllerBase
     {

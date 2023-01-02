@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
 using AlkemyWallet.Core.Models.DTO;
@@ -21,6 +22,25 @@ namespace AlkemyWallet.Core.Mapper
             };
 
             return tDTO;
+        }
+
+        public static TransactionDetailsDTO TransactionToTransactionById(Transaction transaction)
+        {
+            TransactionDetailsDTO transactionDTO = new TransactionDetailsDTO()
+            {
+                Amount = transaction.Amount,
+                Concept = transaction.Concept,
+                Date = transaction.Date,
+                Type = transaction.Type,
+                UserId = transaction.UserId,
+                //User = transaction.User,
+                AccountId = transaction.AccountId,
+                //Account = transaction.Account,
+                ToAccountId = transaction.ToAccountId,
+                //ToAccount = transaction.ToAccount
+            };
+
+            return transactionDTO;
         }
     }
 }
