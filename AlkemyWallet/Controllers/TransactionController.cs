@@ -20,9 +20,22 @@ namespace AlkemyWallet.Controllers
 
         [HttpGet]
         [Authorize("Regular")]
-        public async Task<List<TransactionDTO>> Get()
+        public async Task<IActionResult> Get()
         {
-            return await _transactionService.GetAllAsync();
+            return Ok(await _transactionService.GetAllAsync());
         }
+
+        [HttpGet("{id}")]
+        [Authorize("Regular")]
+        public async Task<IActionResult> GetById(int id)
+        {
+            var user = int.Parse(User.Claims.First(x => x.Type == "UserId").Value);
+            var transaction = await _transactionService.GetById(id, user);
+            if (transaction is null)
+                return NoContent();
+            else
+                return Ok(transaction);
+        }
+
     }
 }
