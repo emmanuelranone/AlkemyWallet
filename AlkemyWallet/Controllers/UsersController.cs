@@ -25,7 +25,7 @@ namespace AlkemyWallet.Controllers
 
             PagedList<UserListDTO> pageUser = _userService.GetAllPage(page.Value);
 
-            if (page > pageUser.TotalPages)
+            if (page > pageUser.TotalPages|| page < 0)
             {
                 return BadRequest($"page number {page} doesn't exist");
             }
