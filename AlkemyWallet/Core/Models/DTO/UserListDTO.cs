@@ -8,7 +8,5 @@ namespace AlkemyWallet.Core.Models.DTO
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public string Email { get; set; }
-        [ForeignKey("Role")]
-        public int RoleId { get; set; }
     }
 }

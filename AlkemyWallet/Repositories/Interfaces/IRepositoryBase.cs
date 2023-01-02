@@ -18,6 +18,6 @@ namespace AlkemyWallet.Repositories.Interfaces
         Task<T> GetFirstOrDefaultAsync(Expression<Func<T, bool>> whereCondition = null,
             Func<IQueryable<T>, IOrderedQueryable<T>> orderBy = null,
             string includeProperties = "");
-        PagedList<T> GetAllPaged(int page);
+        PagedList<T> GetAllPaged(int page, int pageSize);
     }
 }

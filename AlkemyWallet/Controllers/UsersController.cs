@@ -22,25 +22,33 @@ namespace AlkemyWallet.Controllers
         [Authorize("Admin")]
         public IActionResult Get([FromQuery] int? page = 1)
         {
-
-            PagedList<UserListDTO> pageUser = _userService.GetAllPage(page.Value);
-
-            if (page > pageUser.TotalPages|| page < 0)
+            try
             {
-                return BadRequest($"page number {page} doesn't exist");
-            }
-            else
-            {
-                var url = this.Request.Path;
-                return Ok(new
+                PagedList<UserListDTO> pageUser = _userService.GetAllPage(page.Value);
+
+                if (page > pageUser.TotalPages)
                 {
-                    next = pageUser.HasNext ? $"{url}/{page + 1}" : "",
-                    prev = (pageUser.Count > 0 && pageUser.HasPrevious) ? $"{url}/{page - 1}" : "",
-                    currentPage = pageUser.CurrentPage,
-                    totalPages = pageUser.TotalPages,
-                    data = pageUser
-                });
+                    return BadRequest($"page number {page} doesn't exist");
+                }
+                else
+                {
+                    var url = this.Request.Path;
+                    return Ok(new
+                    {
+                        next = pageUser.HasNext ? $"{url}/{page + 1}" : "",
+                        prev = (pageUser.Count > 0 && pageUser.HasPrevious) ? $"{url}/{page - 1}" : "",
+                        currentPage = pageUser.CurrentPage,
+                        totalPages = pageUser.TotalPages,
+                        data = pageUser
+                    });
+                }
             }
+            catch(Exception ex)
+            {
+                string error = ex.Message;
+                return BadRequest(error);
+            }
+            
         }
 
 

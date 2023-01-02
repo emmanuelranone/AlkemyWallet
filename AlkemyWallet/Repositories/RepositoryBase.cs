@@ -130,10 +130,13 @@ namespace AlkemyWallet.Repositories
 
         }
 
-        public PagedList<T> GetAllPaged(int pageNumber = 1)
+        public PagedList<T> GetAllPaged(int pageNumber = 1, int pageSize = 10)
         {
             var all = _entities.AsQueryable();
-            return PagedList<T>.Create(all, pageNumber);
+            var count = all.Count();
+            var items = all.Skip((pageNumber - 1) * pageSize).Take(pageSize).ToList();
+
+            return new PagedList<T>(items, count, pageNumber, pageSize);
         }
 
     }
