@@ -9,11 +9,11 @@ namespace AlkemyWallet.Controllers
 {
     [ApiController]
     [Route("[controller]")]
-    public class TransactionController : ControllerBase
+    public class TransactionsController : ControllerBase
     {
         private readonly ITransactionService _transactionService;
 
-        public TransactionController(ITransactionService transactionService)
+        public TransactionsController(ITransactionService transactionService)
         {
             _transactionService = transactionService;
         }
