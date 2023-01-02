@@ -1,4 +1,5 @@
-﻿using AlkemyWallet.DataAccess;
+﻿using AlkemyWallet.Core.Helper;
+using AlkemyWallet.DataAccess;
 using AlkemyWallet.Entities;
 using AlkemyWallet.Repositories.Interfaces;
 using Microsoft.EntityFrameworkCore;
@@ -128,5 +129,12 @@ namespace AlkemyWallet.Repositories
             return await query.FirstOrDefaultAsync();
 
         }
+
+        public PagedList<T> GetAllPaged(int pageNumber = 1)
+        {
+            var all = _entities.AsQueryable();
+            return PagedList<T>.Create(all, pageNumber);
+        }
+
     }
 }

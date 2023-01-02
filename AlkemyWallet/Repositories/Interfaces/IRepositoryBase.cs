@@ -1,4 +1,5 @@
-﻿using AlkemyWallet.Entities;
+﻿using AlkemyWallet.Core.Helper;
+using AlkemyWallet.Entities;
 using System.Linq.Expressions;
 
 namespace AlkemyWallet.Repositories.Interfaces
@@ -17,5 +18,6 @@ namespace AlkemyWallet.Repositories.Interfaces
         Task<T> GetFirstOrDefaultAsync(Expression<Func<T, bool>> whereCondition = null,
             Func<IQueryable<T>, IOrderedQueryable<T>> orderBy = null,
             string includeProperties = "");
+        PagedList<T> GetAllPaged(int page);
     }
 }
