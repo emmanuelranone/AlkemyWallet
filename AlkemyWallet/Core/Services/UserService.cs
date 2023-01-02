@@ -36,12 +36,14 @@ namespace AlkemyWallet.Core.Services
             if (page < 1) throw new ArgumentException("Argument must be greater than 0", "page");
 
             var users = _unitOfWork.UserRepository.GetAllPaged(page);
-            var usersDTO = new List<UserListDTO>();
+            //var usersDTO = new List<UserListDTO>();
 
-            foreach (var user in users)
-            {
-                usersDTO.Add(UserMapper.userToUsserListDTO(user));
-            }
+            //foreach (var user in users)
+            //{
+            //    usersDTO.Add(UserMapper.userToUsserListDTO(user));
+            //}
+
+            var usersDTO = _mapper.Map<List<UserListDTO>>(users);
 
             var pagedUsers = new PagedList<UserListDTO>(usersDTO, users.TotalCount, page);
             return pagedUsers;

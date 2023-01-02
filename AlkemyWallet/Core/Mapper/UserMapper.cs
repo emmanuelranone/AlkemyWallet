@@ -9,11 +9,10 @@ namespace AlkemyWallet.Core.Mapper
         {
             UserListDTO userDTO = new UserListDTO()
             {
+                Id = user.Id,
                 FirstName = user.FirstName,
                 LastName = user.LastName,
-                Email = user.Email,
-                Password = user.Password,
-                Points = user.Points,
+                Email = user.Email,               
                 RoleId = user.RoleId
             };
             return userDTO;
