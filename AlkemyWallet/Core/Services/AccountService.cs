@@ -64,5 +64,17 @@ namespace AlkemyWallet.Core.Services
                 throw new Exception(ex.Message);
             }
         }
+
+        public async Task<int> Delete(int id)
+        {
+            var deleted = await _unitOfWork.AccountRepository.Delete(id);
+            if (deleted > 0)
+            {
+                _unitOfWork.SaveChanges();
+                return id;
+            }
+            else
+                return 0;
+        }
     }
 }
