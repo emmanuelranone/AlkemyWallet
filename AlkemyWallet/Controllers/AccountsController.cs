@@ -26,12 +26,13 @@ namespace AlkemyWallet.Controllers
             return await _accountService.GetAllAsync();
         }
 
-        //// GET api/<AccountController>/5
-        //[HttpGet("{id}")]
-        //public string Get(int id)
-        //{
-        //    return "value";
-        //}
+        // GET api/<AccountController>/5
+        [HttpGet("{id}")]
+        [Authorize("Admin")]
+        public async Task<AccountDTO> Get(int id)
+        {
+            return await _accountService.GetByIdAsync(id);
+        }
 
         //// POST api/<AccountController>
         //[HttpPost]
