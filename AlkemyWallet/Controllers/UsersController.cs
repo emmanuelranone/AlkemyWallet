@@ -51,7 +51,21 @@ namespace AlkemyWallet.Controllers
             
         }
 
+        [HttpPost]
 
+        public async Task<IActionResult> Register([FromBody] RegisterDTO newUser)
+        {
+            try
+            {
+                var userCreated = await _userService.Register(newUser);
+                return Created("Usuario Creado", userCreated);
+            }
+            catch
+            {
+                return BadRequest("There is an user registered whit that email. Please try another one");
+            }
+        }
+        
 
         [HttpDelete]
         [Authorize("Admin")]
