@@ -11,7 +11,7 @@ namespace AlkemyWallet.Core.Models.DTO
         public string Type { get; set; }
         public int UserId { get; set; }
         //public virtual User User { get; set; }
-        public int? AccountId { get; set; }
+        public int AccountId { get; set; }
         //public virtual Account Account { get; set; }
         public int ToAccountId { get; set; }
         //public virtual Account ToAccount { get; set; }

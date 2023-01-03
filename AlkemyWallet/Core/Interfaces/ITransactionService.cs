@@ -12,6 +12,6 @@ namespace AlkemyWallet.Core.Interfaces
     {
         Task <List<TransactionDTO>> GetAllAsync();
         Task<TransactionDetailsDTO> GetById(int id, int UserId);
-        Task UpdateAsync(int id, TransactionDTO transactionDTO);
+        Task UpdateAsync(int id, TransactionDetailsDTO transactionDTO);
     }
 }
