@@ -1,5 +1,6 @@
 ﻿using AlkemyWallet.Core.Helper;
 using AlkemyWallet.Entities;
+using Microsoft.AspNetCore.JsonPatch;
 using System.Linq.Expressions;
 
 namespace AlkemyWallet.Repositories.Interfaces
@@ -19,5 +20,6 @@ namespace AlkemyWallet.Repositories.Interfaces
             Func<IQueryable<T>, IOrderedQueryable<T>> orderBy = null,
             string includeProperties = "");
         PagedList<T> GetAllPaged(int page, int pageSize);
+        Task<T> UpdatePatchAsync(T entity, JsonPatchDocument<T> pathDocument);
     }
 }

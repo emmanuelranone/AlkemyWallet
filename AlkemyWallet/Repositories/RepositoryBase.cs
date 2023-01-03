@@ -2,6 +2,8 @@
 using AlkemyWallet.DataAccess;
 using AlkemyWallet.Entities;
 using AlkemyWallet.Repositories.Interfaces;
+using Azure;
+using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.EntityFrameworkCore;
 using System.Linq.Expressions;
 
@@ -139,5 +141,10 @@ namespace AlkemyWallet.Repositories
             return new PagedList<T>(items, count, pageNumber, pageSize);
         }
 
+        public Task<T> UpdatePatchAsync(T entity, JsonPatchDocument<T> pathDocument)
+        {
+            pathDocument.ApplyTo(entity);
+            return Task.FromResult(entity);
+        }
     }
 }
