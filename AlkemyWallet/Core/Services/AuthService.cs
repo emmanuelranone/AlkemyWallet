@@ -4,8 +4,6 @@ using AlkemyWallet.Core.Helper;
 using System.IdentityModel.Tokens.Jwt;
 using AlkemyWallet.Core.Mapper;
 using AlkemyWallet.Core.Models.DTO;
-using AlkemyWallet.Entities;
-using AutoMapper;
 
 namespace AlkemyWallet.Core.Services
 {
