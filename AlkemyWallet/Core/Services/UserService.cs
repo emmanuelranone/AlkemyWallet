@@ -42,6 +42,20 @@ namespace AlkemyWallet.Core.Services
             var pagedUsers = new PagedList<UserListDTO>(usersDTO, users.TotalCount, page);
             return pagedUsers;
         }
+        
+        public async Task<int> Delete(int id)
+        {
+            var deleted = await _unitOfWork.UserRepository.Delete(id);
+            if(deleted != 0) 
+            { 
+                _unitOfWork.SaveChanges();
+                return id;
+            }else{
+                return 0;
+            }
+
+            
+        }
 
     }
 }
