@@ -13,13 +13,11 @@ namespace AlkemyWallet.Core.Services
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IConfiguration _configuration;
-        private readonly IMapper _mapper;
         
-        public AuthService(IUnitOfWork unitOfWork, IConfiguration configuration, IMapper mapper)
+        public AuthService(IUnitOfWork unitOfWork, IConfiguration configuration)
         {
             _unitOfWork = unitOfWork;
             _configuration = configuration;
-            _mapper = mapper;
         }
         
         public async Task<string> Login(string email, string password)
