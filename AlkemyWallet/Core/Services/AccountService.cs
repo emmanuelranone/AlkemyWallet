@@ -14,6 +14,7 @@ namespace AlkemyWallet.Core.Services
             _unitOfWork = unitOfWork;
         }
 
+        // GET
         public async Task<IEnumerable<AccountDTO>> GetAllAsync()
         {
             var accounts = await _unitOfWork.AccountRepository.GetAllAsync();
@@ -26,6 +27,17 @@ namespace AlkemyWallet.Core.Services
 
             return accountsDTO;
             
+        }
+
+        // GET
+        public async Task<AccountDTO> GetByIdAsync(int id)
+        {
+            var account = await _unitOfWork.AccountRepository.GetByIdAsync(id);
+            var accountDTO = new AccountDTO();
+
+            accountDTO = AccountMapper.AccountToAccountDTO(account);
+            
+            return accountDTO;
         }
     }
 }
