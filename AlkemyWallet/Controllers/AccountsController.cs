@@ -1,12 +1,7 @@
 ﻿using AlkemyWallet.Core.Interfaces;
 using AlkemyWallet.Core.Models.DTO;
-using AlkemyWallet.Entities;
-using Azure;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Hosting;
-using Microsoft.Identity.Client;
 
 namespace AlkemyWallet.Controllers
 {
@@ -44,38 +39,14 @@ namespace AlkemyWallet.Controllers
         //{
         //}
 
-        [HttpPut("{id}")]
-        [Authorize(Roles = "Admin")]
-        public async Task<IActionResult> Put(int id, AccountUpdateDTO accountDTO)
-        {
-            var existAccount = await _accountService.GetByIdUpdateAsync(id);
-            if (existAccount == null)
-            {
-                return NotFound();
-            }
-            var result = await _accountService.UpdateAsync(id, accountDTO);
-            return Ok(result);
-        }
-
         [HttpPatch("{id}")]
-        public async Task<IActionResult> PatchAsync(int id, [FromBody] JsonPatchDocument<AccountUpdateDTO> patchDoc)
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> PatchAsync(int id, AccountUpdateDTO accountDTO)
         {
-            if (id == 0 || patchDoc == null)
-            {
-                return BadRequest();
-            }
-
-            var existAccount = await _accountService.GetByIdUpdateAsync(id);
-            if (existAccount == null)
-            {
-                return NotFound();
-            }
-
-            var updatedAccount = await _accountService.UpdatePatchAsync(existAccount, patchDoc);
+            var updatedAccount = await _accountService.UpdateAsync(id, accountDTO);
             if (updatedAccount == null)
-            {
                 return NotFound();
-            }
+            
             return Ok(updatedAccount);
         }
 

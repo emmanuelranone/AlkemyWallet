@@ -1,14 +1,8 @@
 ﻿using AlkemyWallet.Core.Interfaces;
 using AlkemyWallet.Core.Mapper;
 using AlkemyWallet.Core.Models.DTO;
-using AlkemyWallet.Entities;
 using AlkemyWallet.Repositories.Interfaces;
 using AutoMapper;
-using Azure;
-using Microsoft.AspNetCore.JsonPatch;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Hosting;
 
 namespace AlkemyWallet.Core.Services
 {
@@ -48,42 +42,27 @@ namespace AlkemyWallet.Core.Services
             return accountDTO;
         }
 
-        public async Task<AccountUpdateDTO> GetByIdUpdateAsync(int id)
-        {
-            var account = await _unitOfWork.AccountRepository.GetByIdAsync(id);
-            var accountDTO = _mapper.Map<AccountUpdateDTO>(account);
-
-            return accountDTO;
-        }
-
         public async Task<AccountUpdateDTO> UpdateAsync(int id, AccountUpdateDTO accountDTO)
         {
-            var accountToUpdate = _mapper.Map<Account>(accountDTO);
-            accountToUpdate.Id = id;
             try
             {
+                var existAccount = await _unitOfWork.AccountRepository.GetByIdAsync(id);
+                if (existAccount == null)
+                    return null;
+
+                var accountToUpdate = AccountMapper.UpdateDTOToAccount(accountDTO, existAccount);
+
                 var accountUpdate = _unitOfWork.AccountRepository.UpdateAsync(accountToUpdate);
                 await _unitOfWork.SaveChangesAsync();
+
+                var account = _mapper.Map<AccountUpdateDTO>(accountToUpdate);
+                
+                return account;
             }
             catch (Exception ex)
             {
                 throw new Exception(ex.Message);
             }
-            
-            return accountDTO;
-        }
-
-        public async Task<AccountUpdateDTO> UpdatePatchAsync(AccountUpdateDTO exitsAccount, JsonPatchDocument<AccountUpdateDTO> pathDocument)
-        {
-            //_unitOfWork.AccountRepository.UpdatePatchAsync(exitsAccount, pathDocument);
-            
-            pathDocument.ApplyTo(exitsAccount);
-            // verificar
-            var accountToUpdate = _mapper.Map<Account>(exitsAccount);
-            var accountUpdate = _unitOfWork.AccountRepository.UpdateAsync(accountToUpdate);
-            await _unitOfWork.SaveChangesAsync();
-
-            return exitsAccount;
         }
     }
 }

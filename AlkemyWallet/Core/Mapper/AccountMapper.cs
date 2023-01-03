@@ -19,20 +19,11 @@ namespace AlkemyWallet.Core.Mapper
             return categoryDTO;
         }
 
-        //public static AccountUpdateDTO AccountToAccountUpdateDTO(Account account)
-        //{
-        //    AccountUpdateDTO accountDTO = new AccountUpdateDTO()
-        //    {
-        //        IsBlocked = account.IsBlocked
-        //    };
-        //    return accountDTO;
-        //}
-
-        //public static Account AccountUpdateDTOToAccount(AccountUpdateDTO accountDTO, Account account)
-        //{
-        //    account.IsBlocked = accountDTO.IsBlocked;
-        //    return account;
-        //}
+        public static Account UpdateDTOToAccount(AccountUpdateDTO accountDTO, Account account)
+        {
+            account.IsBlocked = accountDTO.IsBlocked;
+            return account;
+        }
 
     }
 }
