@@ -1,6 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
-
-namespace AlkemyWallet.Core.Models.DTO
+﻿namespace AlkemyWallet.Core.Models.DTO
 {
     public class AuthMeDTO
     {

@@ -2,9 +2,6 @@
 using AlkemyWallet.Core.Models.DTO;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using System.Diagnostics.CodeAnalysis;
-using System.IdentityModel.Tokens.Jwt;
-using System.Security.Claims;
 
 namespace AlkemyWallet.Controllers
 {
