@@ -22,7 +22,5 @@ namespace AlkemyWallet.Controllers
         {
             return Ok(await _userService.GetAllDtoAsync());
         }
-
-
     }
 }

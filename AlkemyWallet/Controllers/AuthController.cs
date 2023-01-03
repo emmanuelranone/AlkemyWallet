@@ -23,7 +23,5 @@ namespace AlkemyWallet.Controllers
         {
             return await _authService.Login(loginDTO.Email, loginDTO.Password);
         }
-
-
     }
 }

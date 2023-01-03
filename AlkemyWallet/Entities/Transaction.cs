@@ -25,7 +25,7 @@ namespace AlkemyWallet.Entities
 
         [Column("account_id")]
         [ForeignKey("Account")]
-        public int? AccountId { get; set; }
+        public int AccountId { get; set; }
 
         public virtual Account Account { get; set; }
 

@@ -3,6 +3,7 @@ using AlkemyWallet.Core.Mapper;
 using AlkemyWallet.Core.Models.DTO;
 using AlkemyWallet.Entities;
 using AlkemyWallet.Repositories.Interfaces;
+using AutoMapper;
 
 namespace AlkemyWallet.Core.Services
 {
@@ -10,9 +11,10 @@ namespace AlkemyWallet.Core.Services
     {
         private readonly IUnitOfWork _unitOfWork;
 
-        public TransactionService(IUnitOfWork unitOfWork)
+        public TransactionService(IUnitOfWork unitOfWork, IMapper mapper)
         {
             _unitOfWork = unitOfWork;
+
         }
     
 
@@ -28,7 +30,7 @@ namespace AlkemyWallet.Core.Services
 
             foreach (var transaction in result)
             {
-                transactionsDTO.Add(TransactionMapper.tMapper(transaction));
+                transactionsDTO.Add(TransactionMapper.TransactionToTransactionDTO(transaction));
             }
 
             return transactionsDTO;            
@@ -45,6 +47,14 @@ namespace AlkemyWallet.Core.Services
                 return TransactionMapper.TransactionToTransactionById(transaction);
         }
 
-        
+        public async Task UpdateAsync(int id, TransactionDTO transactionDTO)
+        {
+            var transaction = await _unitOfWork.TransactionRepository.GetByIdAsync(id);
+
+            transaction = TransactionMapper.TransactionDTOToTransaction(transactionDTO, transaction);
+
+            await _unitOfWork.TransactionRepository.UpdateAsync(transaction);
+            await _unitOfWork.SaveChangesAsync();
+        }
     }    
 }
