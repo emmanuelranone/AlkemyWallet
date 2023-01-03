@@ -10,7 +10,7 @@ namespace AlkemyWallet.Core.Mapper
 {
     public static class TransactionMapper
     {
-        public static TransactionDTO tMapper (Transaction tEntity)
+        public static TransactionDTO TransactionToTransactionDTO (Transaction tEntity)
         {
             TransactionDTO tDTO = new TransactionDTO()
             {
@@ -22,6 +22,19 @@ namespace AlkemyWallet.Core.Mapper
             };
 
             return tDTO;
+        }
+
+        public static Transaction TransactionDTOToTransaction (TransactionDetailsDTO tDTO, Transaction tEntity)
+        {
+            tEntity.Amount = tDTO.Amount;
+            tEntity.Concept = tDTO.Concept;
+            tEntity.Date = tDTO.Date;
+            tEntity.Type = tDTO.Type;
+            tEntity.UserId = tDTO.UserId;
+            tEntity.AccountId = tDTO.AccountId;
+            tEntity.ToAccountId = tDTO.ToAccountId;
+
+            return tEntity;
         }
 
         public static TransactionDetailsDTO TransactionToTransactionById(Transaction transaction)

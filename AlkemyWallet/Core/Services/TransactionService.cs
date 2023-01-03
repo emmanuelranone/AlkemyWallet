@@ -28,7 +28,7 @@ namespace AlkemyWallet.Core.Services
 
             foreach (var transaction in result)
             {
-                transactionsDTO.Add(TransactionMapper.tMapper(transaction));
+                transactionsDTO.Add(TransactionMapper.TransactionToTransactionDTO(transaction));
             }
 
             return transactionsDTO;            
@@ -45,6 +45,14 @@ namespace AlkemyWallet.Core.Services
                 return TransactionMapper.TransactionToTransactionById(transaction);
         }
 
-        
+        public async Task UpdateAsync(int id, TransactionDetailsDTO transactionDTO)
+        {
+            var transaction = await _unitOfWork.TransactionRepository.GetByIdAsync(id);
+            
+            transaction = TransactionMapper.TransactionDTOToTransaction(transactionDTO, transaction);
+
+            await _unitOfWork.TransactionRepository.UpdateAsync(transaction);
+            await _unitOfWork.SaveChangesAsync();
+        }
     }    
 }
