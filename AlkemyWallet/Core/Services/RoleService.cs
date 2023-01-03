@@ -33,6 +33,6 @@ public class RoleService : IRoleService
 
     public async Task<RoleDTO> GetByIdAsync(int id)
     {
-        return _mapper.Map<RoleDTO>(await _unitOfWork.RoleRepository.GetByIdAsync(id));
+        return _mapper.Map<RoleDTO>(await _unitOfWork.RoleRepository.GetByIdAsync(id));   
     }
 }

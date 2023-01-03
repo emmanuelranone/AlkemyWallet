@@ -25,9 +25,9 @@ public class RolesController : ControllerBase
 
     [HttpGet("{id}")]
     [Authorize("Admin")]
-    public IActionResult GetById(int id)
+    public async Task<IActionResult> GetById(int id)
     {
-        var role = _roleService.GetByIdAsync(id);
+        var role = await _roleService.GetByIdAsync(id);
         return role == null ? NotFound($"Role with id: {id} does not exist") : Ok(role);
     }
 }
