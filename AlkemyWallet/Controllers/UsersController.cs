@@ -52,5 +52,22 @@ namespace AlkemyWallet.Controllers
         }
 
 
+        [HttpDelete]
+        [Authorize("Admin")]
+        public async Task<IActionResult> Delete([FromQuery] int id)
+        {
+            var deletedUser = await _userService.Delete(id);
+            if (deletedUser != 0)
+            {
+                return Ok("User " + id + " Deleted");
+            }
+            else
+            {
+                return NotFound("User doesn't exist");
+            }
+
+            
+        }
+
     }
 }
