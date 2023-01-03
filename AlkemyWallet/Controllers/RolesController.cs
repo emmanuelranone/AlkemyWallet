@@ -22,4 +22,12 @@ public class RolesController : ControllerBase
     {
         return await _roleService.GetAllAsync();
     }
+
+    [HttpGet("{id}")]
+    [Authorize("Admin")]
+    public IActionResult GetById(int id)
+    {
+        var role = _roleService.GetByIdAsync(id);
+        return role == null ? NotFound($"Role with id: {id} does not exist") : Ok(role);
+    }
 }

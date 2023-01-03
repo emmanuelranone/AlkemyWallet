@@ -8,6 +8,11 @@ namespace AlkemyWallet.Core.Mapper
     {
         public EntityMapper() 
         {
+            //RolMaps
+            CreateMap<Role, RoleDTO>();
+            CreateMap<RoleDTO, Role>();
+
+            //UserMaps
             CreateMap<User, UserDto>();
             CreateMap<UserDto, User>();
 
