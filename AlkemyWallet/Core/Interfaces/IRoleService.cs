@@ -5,4 +5,6 @@ namespace AlkemyWallet.Core.Interfaces;
 public interface IRoleService
 {
     Task<IEnumerable<RoleDTO>> GetAllAsync();
+
+    Task<RoleDTO> GetByIdAsync(int id);
 }
