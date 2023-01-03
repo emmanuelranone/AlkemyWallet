@@ -53,7 +53,7 @@ namespace AlkemyWallet.Controllers
 
 
         [HttpDelete]
-        //[Authorize("Admin")]
+        [Authorize("Admin")]
         public async Task<IActionResult> Delete([FromQuery] int id)
         {
             var deletedUser = await _userService.Delete(id);
