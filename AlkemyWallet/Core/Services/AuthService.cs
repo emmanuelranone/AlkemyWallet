@@ -2,6 +2,10 @@
 using AlkemyWallet.Repositories.Interfaces;
 using AlkemyWallet.Core.Helper;
 using System.IdentityModel.Tokens.Jwt;
+using AlkemyWallet.Core.Mapper;
+using AlkemyWallet.Core.Models.DTO;
+using AlkemyWallet.Entities;
+using AutoMapper;
 
 namespace AlkemyWallet.Core.Services
 {
@@ -9,11 +13,13 @@ namespace AlkemyWallet.Core.Services
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IConfiguration _configuration;
+        private readonly IMapper _mapper;
         
-        public AuthService(IUnitOfWork unitOfWork, IConfiguration configuration)
+        public AuthService(IUnitOfWork unitOfWork, IConfiguration configuration, IMapper mapper)
         {
             _unitOfWork = unitOfWork;
             _configuration = configuration;
+            _mapper = mapper;
         }
         
         public async Task<string> Login(string email, string password)
@@ -32,6 +38,14 @@ namespace AlkemyWallet.Core.Services
 
             //Returning token to controller
             return new JwtSecurityTokenHandler().WriteToken(token);    
+        }
+
+        public async Task<AuthMeDTO> GetAuthMeAsync(int id)
+        {
+            var user = await _unitOfWork.UserRepository
+                .GetFirstOrDefaultAsync(u => u.Id == id, null, "Role");
+
+            return UserMapper.UserToAuthMeDTO(user);
         }
     }
 }
