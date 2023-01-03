@@ -1,7 +1,4 @@
-﻿using System.IdentityModel.Tokens.Jwt;
-using System.Security.Claims;
-using AlkemyWallet.Core.Models.DTO;
-using AlkemyWallet.Entities;
+﻿using AlkemyWallet.Core.Models.DTO;
 
 namespace AlkemyWallet.Core.Interfaces
 {
