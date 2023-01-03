@@ -39,10 +39,9 @@ namespace AlkemyWallet.Controllers
 
         [HttpPut("{id}")]
         [Authorize(Roles="Admin")]
-        public async Task<List<TransactionDTO>> Put(int id, TransactionDTO transactionDTO)
+        public async Task Put(int id, TransactionDetailsDTO transactionDTO)
         {
             await _transactionService.UpdateAsync(id, transactionDTO);
-            return await _transactionService.GetAllAsync();
         }
     }
 }

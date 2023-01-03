@@ -26,7 +26,6 @@ namespace AlkemyWallet.Core.Mapper
 
         public static Transaction TransactionDTOToTransaction (TransactionDetailsDTO tDTO, Transaction tEntity)
         {
-
             tEntity.Amount = tDTO.Amount;
             tEntity.Concept = tDTO.Concept;
             tEntity.Date = tDTO.Date;
