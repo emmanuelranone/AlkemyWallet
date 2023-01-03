@@ -62,7 +62,7 @@ namespace AlkemyWallet.Repositories
             }
             catch (Exception e)
             {
-                throw new Exception("Error on Repository.Delete", e);
+                throw new Exception("Error on Delete", e);
             }
         }
 

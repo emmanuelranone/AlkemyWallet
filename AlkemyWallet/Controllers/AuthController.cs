@@ -30,6 +30,5 @@ namespace AlkemyWallet.Controllers
 
             return await _authService.GetAuthMeAsync(id);
         }
-
     }
 }
