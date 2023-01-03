@@ -1,9 +1,7 @@
 ﻿using AlkemyWallet.Core.Interfaces;
 using AlkemyWallet.Core.Models.DTO;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using System.IdentityModel.Tokens.Jwt;
-
-// For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace AlkemyWallet.Controllers
 {
@@ -22,6 +20,15 @@ namespace AlkemyWallet.Controllers
         public async Task<string> Post(LoginDTO loginDTO)
         {
             return await _authService.Login(loginDTO.Email, loginDTO.Password);
+        }
+
+        [HttpGet("me")]
+        [Authorize(Roles = "Admin, Regular")]
+        public async Task<AuthMeDTO> Me()
+        {
+            var id = int.Parse(User.FindFirst("UserId").Value);
+
+            return await _authService.GetAuthMeAsync(id);
         }
     }
 }
