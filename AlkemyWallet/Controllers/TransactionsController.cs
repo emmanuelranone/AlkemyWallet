@@ -37,11 +37,20 @@ namespace AlkemyWallet.Controllers
                 return Ok(transaction);
         }
 
+
+        [HttpDelete("{id}")]
+        [Authorize(Roles ="Admin")]
+        public async Task Delete(int id)
+        {
+            await _transactionService.Delete(id);
+         }
+
         [HttpPut("{id}")]
         [Authorize(Roles="Admin")]
         public async Task Put(int id, TransactionDetailsDTO transactionDTO)
         {
             await _transactionService.UpdateAsync(id, transactionDTO);
+
         }
     }
 }
