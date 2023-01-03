@@ -45,6 +45,11 @@ namespace AlkemyWallet.Core.Services
                 return TransactionMapper.TransactionToTransactionById(transaction);
         }
 
-        
+        // DELETE
+        public async Task Delete(int id)
+        {
+            await _unitOfWork.TransactionRepository.Delete(id);
+            await _unitOfWork.SaveChangesAsync();
+        }        
     }    
 }
