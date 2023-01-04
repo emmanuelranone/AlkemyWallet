@@ -29,8 +29,8 @@ namespace AlkemyWallet.Controllers
         [Authorize("Regular")]
         public async Task<IActionResult> GetById(int id)
         {
-            var user = int.Parse(User.Claims.First(x => x.Type == "UserId").Value);
-            var transaction = await _transactionService.GetById(id, user);
+            var userId = int.Parse(User.FindFirst("UserId").Value);
+            var transaction = await _transactionService.GetById(id, userId);
             if (transaction is null)
                 return NoContent();
             else
