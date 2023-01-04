@@ -18,6 +18,14 @@ namespace AlkemyWallet.Core.Mapper
             CreateMap<User, UserListDTO>();
             CreateMap<UserListDTO, User>();
             CreateMap<User, BriefUserDTO>();
+            CreateMap<User, UserGetByIdDTO>();
+            CreateMap<UserGetByIdDTO, User>();
+
+            //AccountMaps
+            CreateMap<AccountUpdateDTO, Account>();
+            CreateMap<Account, AccountUpdateDTO>();
+            CreateMap<AccountUpdateDTO, AccountDTO>();
+            CreateMap<AccountDTO, AccountUpdateDTO>();
         }
     }
 }

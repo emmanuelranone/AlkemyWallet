@@ -11,5 +11,6 @@ namespace AlkemyWallet.Core.Interfaces
         PagedList<UserListDTO> GetAllPage(int page);
         Task<BriefUserDTO> Register(RegisterDTO newUser);
         Task<int> Delete(int id);
+        Task<UserGetByIdDTO> GetByIdAsync(int id);
     }
 }
