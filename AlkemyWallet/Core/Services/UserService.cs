@@ -57,5 +57,11 @@ namespace AlkemyWallet.Core.Services
             
         }
 
+        public async Task<UserGetByIdDTO> GetByIdAsync(int id)
+        {
+            var user = await _unitOfWork.UserRepository.GetByIdAsync(id);
+
+            return _mapper.Map<UserGetByIdDTO>(user);
+        }
     }
 }
