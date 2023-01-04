@@ -1,8 +1,3 @@
-using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
-using System.Threading.Tasks;
 using AlkemyWallet.Core.Models.DTO;
 using AlkemyWallet.Entities;
 
@@ -46,11 +41,13 @@ namespace AlkemyWallet.Core.Mapper
                 Date = transaction.Date,
                 Type = transaction.Type,
                 UserId = transaction.UserId,
-                //User = transaction.User,
+                UserName = transaction.User.FirstName,
+                UserLastName = transaction.User.LastName,
+                UserEmail = transaction.User.Email,
                 AccountId = transaction.AccountId,
-                //Account = transaction.Account,
+                Account = transaction.Account.Money,
                 ToAccountId = transaction.ToAccountId,
-                //ToAccount = transaction.ToAccount
+                ToAccount = transaction.ToAccount.Money
             };
 
             return transactionDTO;

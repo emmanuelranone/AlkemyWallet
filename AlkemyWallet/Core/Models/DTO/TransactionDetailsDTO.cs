@@ -10,10 +10,12 @@ namespace AlkemyWallet.Core.Models.DTO
         public DateTime Date { get; set; }
         public string Type { get; set; }
         public int UserId { get; set; }
-        //public virtual User User { get; set; }
+        public string UserName { get; set; }
+        public string UserLastName { get; set; }
+        public string UserEmail { get; set; }
         public int AccountId { get; set; }
-        //public virtual Account Account { get; set; }
+        public double Account { get; set; }
         public int ToAccountId { get; set; }
-        //public virtual Account ToAccount { get; set; }
+        public double ToAccount { get; set; }
     }
 }

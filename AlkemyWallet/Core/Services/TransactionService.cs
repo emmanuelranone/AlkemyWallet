@@ -34,11 +34,13 @@ namespace AlkemyWallet.Core.Services
             return transactionsDTO;            
         }
 
-        public async Task<TransactionDetailsDTO> GetById(int id, int UserId)
+        public async Task<TransactionDetailsDTO> GetById(int id, int userId)
         {
             var transaction = await _unitOfWork.TransactionRepository.GetFirstOrDefaultAsync(
                 t => t.Id == id &&
-                t.UserId == UserId, null, "");
+                t.UserId == userId, 
+                null,
+                "User,Account,ToAccount");
             if (transaction == null)
                 return null;
             else
