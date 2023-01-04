@@ -7,5 +7,6 @@ namespace AlkemyWallet.Core.Interfaces
         Task<IEnumerable<AccountDTO>> GetAllAsync();
         Task<AccountDTO> GetByIdAsync(int id);
         Task<AccountUpdateDTO> UpdateAsync(int id, AccountUpdateDTO accountDTO);
+        Task<int> Delete(int id);
     }
 }
