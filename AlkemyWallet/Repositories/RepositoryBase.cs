@@ -72,7 +72,7 @@ namespace AlkemyWallet.Repositories
 
         public async Task<T> UpdateAsync(T entity)
         {
-            _entities.Entry(entity).State = EntityState.Modified;
+            _dbContext.Entry(entity).State = EntityState.Modified;
             return await Task.FromResult(entity);
         }
 

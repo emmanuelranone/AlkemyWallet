@@ -55,5 +55,36 @@ namespace AlkemyWallet.Controllers
         //public void Delete(int id)
         //{
         //}
+
+
+        // POST api/<AccountController>/5
+        [HttpPost("{id}")]
+        [Authorize(Roles = "Regular")]
+        public async Task TransactionAsync (int id, TransactionDTO transactionDTO)
+        {   
+            var account = await _accountService.GetByIdAsync(id);
+            //Obtenemos el User_id del Token de lac uenta logueada
+            var userId = int.Parse(User.FindFirst("UserId").Value);
+
+            if (userId == account.User_Id)
+            {
+                if (transactionDTO.ToAccountId != id)
+                {   
+                    await _accountService.TransferAsync(id, transactionDTO);
+                }
+                else
+                {
+                    //await _accountService.DepositAsync(userId, id, transactionDTO);
+                }
+            }
+        }
+
+        // POST api/<AccountController>/5
+        /*[HttpPost("{id}")]
+        [Authorize(Roles = "Regular")]
+        public async Task DepositAsync (int id, TransactionTransferDTO transactionDTO)
+        {     
+            await _transactionService.CreateTransactionAsync(id, transactionDTO);
+        }*/
     }
 }

@@ -10,9 +10,9 @@ namespace AlkemyWallet.Core.Mapper
 {
     public static class TransactionMapper
     {
-        public static TransactionDTO TransactionToTransactionDTO (Transaction tEntity)
+        public static TransactionListDTO TransactionToTransactionDTO (Transaction tEntity)
         {
-            TransactionDTO tDTO = new TransactionDTO()
+            TransactionListDTO tDTO = new TransactionListDTO()
             {
                 Amount = tEntity.Amount,
                 Concept = tEntity.Concept,
