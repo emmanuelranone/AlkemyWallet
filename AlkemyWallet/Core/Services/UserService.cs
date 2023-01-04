@@ -43,6 +43,35 @@ namespace AlkemyWallet.Core.Services
             return pagedUsers;
         }
         
+        public async Task<BriefUserDTO> Register(RegisterDTO newUser)
+        {
+            var validateUser = await _unitOfWork.UserRepository.GetFirstOrDefaultAsync(u => u.Email == newUser.Email, null, "");
+
+            if (validateUser != null)
+            {
+                return null;
+            }
+            else
+            {
+                var encryptedPassword = AuthHelper.EncryptPassword(newUser.Password);
+
+                var user = new User
+                {
+                    Email = newUser.Email,
+                    FirstName = newUser.FirstName,
+                    LastName = newUser.LastName,
+                    Password = encryptedPassword,
+                    Points = 1,
+                    RoleId = 2,
+                    IsDeleted = false
+                };
+
+                await _unitOfWork.UserRepository.AddAsync(user);
+                await _unitOfWork.SaveChangesAsync();
+                return _mapper.Map<BriefUserDTO>(user);
+            }
+        }
+
         public async Task<int> Delete(int id)
         {
             var deleted = await _unitOfWork.UserRepository.Delete(id);

@@ -9,6 +9,7 @@ namespace AlkemyWallet.Core.Interfaces
         Task<IEnumerable<User>> GetAllAsync();
         Task<IEnumerable<UserDto>> GetAllDtoAsync();
         PagedList<UserListDTO> GetAllPage(int page);
+        Task<BriefUserDTO> Register(RegisterDTO newUser);
         Task<int> Delete(int id);
         Task<UserGetByIdDTO> GetByIdAsync(int id);
     }
