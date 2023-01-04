@@ -1,6 +1,5 @@
 ﻿using AlkemyWallet.Core.Interfaces;
 using AlkemyWallet.Core.Models.DTO;
-using AlkemyWallet.Entities;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -40,11 +39,16 @@ namespace AlkemyWallet.Controllers
         //{
         //}
 
-        //// PUT api/<AccountController>/5
-        //[HttpPut("{id}")]
-        //public void Put(int id, [FromBody] string value)
-        //{
-        //}
+        [HttpPatch("{id}")]
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> PatchAsync(int id, AccountUpdateDTO accountDTO)
+        {
+            var updatedAccount = await _accountService.UpdateAsync(id, accountDTO);
+            if (updatedAccount == null)
+                return NotFound();
+            
+            return Ok(updatedAccount);
+        }
 
         //// DELETE api/<AccountController>/5
         //[HttpDelete("{id}")]

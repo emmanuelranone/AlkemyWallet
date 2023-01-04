@@ -2,16 +2,19 @@
 using AlkemyWallet.Core.Mapper;
 using AlkemyWallet.Core.Models.DTO;
 using AlkemyWallet.Repositories.Interfaces;
+using AutoMapper;
 
 namespace AlkemyWallet.Core.Services
 {
     public class AccountService : IAccountService
     {
         private readonly IUnitOfWork _unitOfWork;
+        private readonly IMapper _mapper;
 
-        public AccountService(IUnitOfWork unitOfWork)
+        public AccountService(IUnitOfWork unitOfWork, IMapper mapper)
         {
             _unitOfWork = unitOfWork;
+            _mapper = mapper;
         }
 
         // GET
@@ -26,7 +29,7 @@ namespace AlkemyWallet.Core.Services
             }
 
             return accountsDTO;
-            
+
         }
 
         // GET
@@ -36,8 +39,30 @@ namespace AlkemyWallet.Core.Services
             var accountDTO = new AccountDTO();
 
             accountDTO = AccountMapper.AccountToAccountDTO(account);
-            
             return accountDTO;
+        }
+
+        public async Task<AccountUpdateDTO> UpdateAsync(int id, AccountUpdateDTO accountDTO)
+        {
+            try
+            {
+                var existAccount = await _unitOfWork.AccountRepository.GetByIdAsync(id);
+                if (existAccount == null)
+                    return null;
+
+                var accountToUpdate = AccountMapper.UpdateDTOToAccount(accountDTO, existAccount);
+
+                var accountUpdate = _unitOfWork.AccountRepository.UpdateAsync(accountToUpdate);
+                await _unitOfWork.SaveChangesAsync();
+
+                var account = _mapper.Map<AccountUpdateDTO>(accountToUpdate);
+                
+                return account;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
         }
     }
 }
