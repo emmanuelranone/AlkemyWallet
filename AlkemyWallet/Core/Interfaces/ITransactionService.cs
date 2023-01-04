@@ -17,6 +17,6 @@ namespace AlkemyWallet.Core.Interfaces
 
         Task UpdateAsync(int id, TransactionDetailsDTO transactionDTO);
 
-        Task<string> CreateTransactionAsync(int id, TransactionDTO transactionDTO);
+        Task<TransactionDTO> CreateTransactionAsync(TransactionDTO transactionDTO);
     }
 }

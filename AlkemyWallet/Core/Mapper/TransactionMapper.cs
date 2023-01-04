@@ -24,7 +24,7 @@ namespace AlkemyWallet.Core.Mapper
             return tDTO;
         }
 
-        public static Transaction TransactionDTOToTransaction (int id, TransactionDTO tDTO)
+        public static Transaction TransactionDTOToTransaction (TransactionDTO tDTO)
         {
             Transaction transaction = new Transaction()
             {
@@ -32,8 +32,8 @@ namespace AlkemyWallet.Core.Mapper
                 Concept = tDTO.Concept,
                 Date = DateTime.Now,
                 Type = tDTO.Type,
-                //UserId = tDTO.UserId;
-                AccountId = id,
+                UserId = tDTO.UserId,
+                AccountId = tDTO.AccountId,
                 ToAccountId = tDTO.ToAccountId
             };
 

@@ -65,20 +65,20 @@ namespace AlkemyWallet.Core.Services
         }
 
         // POST
-        public async Task<string> CreateTransactionAsync(int id, TransactionDTO transactionDTO)
+        public async Task<TransactionDTO> CreateTransactionAsync(TransactionDTO transactionDTO)
         {    
             try
             {
-                var transaction = TransactionMapper.TransactionDTOToTransaction(id, transactionDTO);
+                var transaction = TransactionMapper.TransactionDTOToTransaction(transactionDTO);
 
                 await _unitOfWork.TransactionRepository.AddAsync(transaction);
-                await _unitOfWork.SaveChangesAsync();    
+                await _unitOfWork.SaveChangesAsync();
 
-                return "Transacción realizada con éxito";        
+                return transactionDTO;        
             }
             catch
             {
-                return "Ha ocurrido un error en la transacción";
+                return null;
             }        
         }
     }    
