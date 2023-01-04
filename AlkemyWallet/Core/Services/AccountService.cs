@@ -1,4 +1,5 @@
-﻿using AlkemyWallet.Core.Interfaces;
+﻿using AlkemyWallet.Core.Helper;
+using AlkemyWallet.Core.Interfaces;
 using AlkemyWallet.Core.Mapper;
 using AlkemyWallet.Core.Models.DTO;
 using AlkemyWallet.Repositories.Interfaces;
@@ -63,6 +64,19 @@ namespace AlkemyWallet.Core.Services
             {
                 throw new Exception(ex.Message);
             }
+        }
+
+        public PagedList<AccountListDTO> GetAllPage(int page = 1)
+        {
+            if (page < 1) throw new ArgumentException("Argument must be greater than 0", "page");
+
+            var accounts = _unitOfWork.AccountRepository.GetAllPaged(page, 10);
+
+            var accountsDTO = _mapper.Map<List<AccountListDTO>>(accounts);
+
+            var pagedAccounts = new PagedList<AccountListDTO>(accountsDTO, accounts.TotalCount, page);
+            
+            return pagedAccounts;
         }
 
         public async Task<int> Delete(int id)
