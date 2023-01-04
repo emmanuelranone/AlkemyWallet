@@ -3,7 +3,6 @@ using AlkemyWallet.Core.Interfaces;
 using AlkemyWallet.Core.Models.DTO;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using System.Data;
 
 namespace AlkemyWallet.Controllers
 {
@@ -51,7 +50,17 @@ namespace AlkemyWallet.Controllers
             
         }
 
+        [HttpGet("{id}")]
+        [Authorize(Roles = "Regular")]
+        public async Task<IActionResult> GetById(int id)
+        {
+            var user = await _userService.GetByIdAsync(id);
 
+            if (user != null)
+                return Ok(user);
+            else
+                return NotFound();
+        }
 
         [HttpDelete]
         [Authorize("Admin")]
