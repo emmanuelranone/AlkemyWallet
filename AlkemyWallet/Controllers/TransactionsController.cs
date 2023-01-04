@@ -52,5 +52,11 @@ namespace AlkemyWallet.Controllers
             await _transactionService.UpdateAsync(id, transactionDTO);
 
         }
+
+        [HttpPost]
+        public async Task Post(int id, TransactionDTO transactionDTO)
+        {
+            await _transactionService.CreateTransactionAsync(id, transactionDTO);
+        }
     }
 }
