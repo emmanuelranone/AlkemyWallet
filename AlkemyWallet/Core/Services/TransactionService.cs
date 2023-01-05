@@ -19,13 +19,12 @@ namespace AlkemyWallet.Core.Services
             _mapper = mapper;
         }
     
-
         //GET
-        public async Task<List<TransactionDTO>> GetAllAsync()
+        public async Task<List<TransactionListDTO>> GetAllAsync()
         {    
             IEnumerable<Transaction> transactions = await _unitOfWork.TransactionRepository.GetAllAsync();
 
-            List<TransactionDTO> transactionsDTO = new List<TransactionDTO>();
+            List<TransactionListDTO> transactionsDTO = new List<TransactionListDTO>();
 
 
             IEnumerable<Transaction> result = transactions.OrderByDescending(t => t.Date);
@@ -38,6 +37,7 @@ namespace AlkemyWallet.Core.Services
             return transactionsDTO;            
         }
 
+        // GET
         public async Task<TransactionDetailsDTO> GetById(int id, int UserId)
         {
             var transaction = await _unitOfWork.TransactionRepository.GetFirstOrDefaultAsync(
@@ -70,6 +70,7 @@ namespace AlkemyWallet.Core.Services
             await _unitOfWork.SaveChangesAsync();
         }        
 
+        // UPDATE
         public async Task UpdateAsync(int id, TransactionDetailsDTO transactionDTO)
         {
             var transaction = await _unitOfWork.TransactionRepository.GetByIdAsync(id);
@@ -80,5 +81,22 @@ namespace AlkemyWallet.Core.Services
             await _unitOfWork.SaveChangesAsync();
         }
 
+        // POST
+        public async Task<TransactionDTO> CreateTransactionAsync(TransactionDTO transactionDTO)
+        {    
+            try
+            {
+                var transaction = TransactionMapper.TransactionDTOToTransaction(transactionDTO);
+
+                await _unitOfWork.TransactionRepository.AddAsync(transaction);
+                await _unitOfWork.SaveChangesAsync();
+
+                return transactionDTO;        
+            }
+            catch
+            {
+                return null;
+            }        
+        }
     }    
 }

@@ -11,12 +11,13 @@ namespace AlkemyWallet.Core.Interfaces
 {
     public interface ITransactionService
     {
-        Task <List<TransactionDTO>> GetAllAsync();
+        Task <List<TransactionListDTO>> GetAllAsync();
         Task<TransactionDetailsDTO> GetById(int id, int UserId);
         PagedList<TransactionPagedDTO> GetAllPage(int page);
         Task Delete(int id);
 
         Task UpdateAsync(int id, TransactionDetailsDTO transactionDTO);
 
+        Task<TransactionDTO> CreateTransactionAsync(TransactionDTO transactionDTO);
     }
 }
