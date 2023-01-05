@@ -168,10 +168,6 @@ namespace AlkemyWallet.Controllers
         {
             if (transactionDTO.Amount >= (decimal)0.01)
             {
-                var httpClient = _httpClientFactory.CreateClient("Myurl");
-                var launchUrl = LaunchUrl.GetApplicationUrl();
-                
-
                 //Obtenemos la account del id ingresado en el path
                 var account = await _accountService.GetByIdAsync(id);
                 //Obtenemos el User_id del Token de la cuenta logueada
@@ -203,6 +199,10 @@ namespace AlkemyWallet.Controllers
                     if (responseString != null)
                     {
                         //log of the transaction on Endpoint
+
+                        var httpClient = _httpClientFactory.CreateClient("Myurl");
+                        var launchUrl = LaunchUrl.GetApplicationUrl();
+
                         using var httpResponseMessage =
                             await httpClient.PostAsJsonAsync(launchUrl + "/transactions", transactionDTO);
 
