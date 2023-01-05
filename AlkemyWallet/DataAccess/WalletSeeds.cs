@@ -45,6 +45,41 @@ namespace AlkemyWallet.DataAccess
                 new Account { Id = 3, User_Id = 1, CreationDate = DateTime.Now, IsBlocked = false, Money = 5000.00 },
                 new Account { Id = 4, User_Id = 2, CreationDate = DateTime.Now, IsBlocked = false, Money = 2000.00 }
                 );
+
+            // For pagination test
+
+            //List<Account> accountList = new();
+
+            //for (int i = 1; i <= 15; i++)
+            //{
+            //    accountList.Add(
+            //        new Account
+            //        {
+            //            Id = i,
+            //            User_Id = 1,
+            //            CreationDate = DateTime.Now,
+            //            IsBlocked = false,
+            //            Money = 10000.00
+            //        }
+            //    );
+            //}
+
+            //for (int i = 16; i <= 30; i++)
+            //{
+            //    accountList.Add(
+            //        new Account
+            //        {
+            //            Id = i,
+            //            User_Id = 2,
+            //            CreationDate = DateTime.Now,
+            //            IsBlocked = false,
+            //            Money = 10000.00
+            //        }
+            //    );
+            //}
+
+            //modelBuilder.Entity<Account>().HasData(accountList.ToArray());
+
         }
 
         public static void SeedTransactions(this ModelBuilder modelBuilder)
