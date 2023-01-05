@@ -1,6 +1,7 @@
 ﻿using AlkemyWallet.Core.Interfaces;
 using AlkemyWallet.Core.Mapper;
 using AlkemyWallet.Core.Models.DTO;
+using AlkemyWallet.Entities;
 using AlkemyWallet.Repositories.Interfaces;
 using AutoMapper;
 
@@ -75,6 +76,34 @@ namespace AlkemyWallet.Core.Services
             }
             else
                 return 0;
+        }
+
+        public async Task<string> DepositAsync(int id, TransactionDTO transactionDTO)
+        {
+            //bring the account data by Id
+            var account = await _unitOfWork.AccountRepository.GetByIdAsync(id);
+
+            //Add the amount of money made by the transaction
+            account.Money += (double)transactionDTO.Amount;
+            await _unitOfWork.AccountRepository.UpdateAsync(account);
+
+            //create transaction Entity for logging it
+            var transaction = new Transaction()
+            {
+                Amount = transactionDTO.Amount,
+                Concept = transactionDTO.Concept,
+                Date = DateTime.Now,
+                Type = transactionDTO.Type,
+                UserId = account.User_Id,
+                AccountId = id,
+                ToAccountId = transactionDTO.ToAccountId
+            };
+
+            await _unitOfWork.TransactionRepository.AddAsync(transaction);
+
+            await _unitOfWork.SaveChangesAsync();
+
+            return "Deposit made";
         }
     }
 }

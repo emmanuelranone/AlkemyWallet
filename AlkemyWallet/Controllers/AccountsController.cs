@@ -64,5 +64,46 @@ namespace AlkemyWallet.Controllers
             else
                 return NotFound();
         }
+
+        // POST api/<AccountController>/5
+        [HttpPost("{id}")]
+        [Authorize(Roles = "Regular")]
+        public async Task<IActionResult> TransactionAsync(int id, TransactionDTO transactionDTO)
+        {
+            if (transactionDTO.Amount >= (decimal)0.01)
+            {
+                //Obtenemos la account del id ingresado en el path
+                var account = await _accountService.GetByIdAsync(id);
+                //Obtenemos el User_id del Token de la cuenta logueada
+                var userId = int.Parse(User.FindFirst("UserId").Value);
+
+                transactionDTO.UserId = userId;
+
+                //String respuesta de la tarea realizada
+                string response;
+
+                if (userId == account.User_Id)
+                {
+                    if (transactionDTO.Type == "Transferencia")
+                    {
+                        //response = await _accountService.TransferAsync(id, transactionDTO);
+                        response = "";
+                    }
+                    else if (transactionDTO.Type == "Deposito")
+                    {
+                        response = await _accountService.DepositAsync(id, transactionDTO);
+                    }
+                    else
+                    {
+                        return BadRequest("Type of transaction doesn't exist");
+                    }
+
+                    return Ok(response);
+                }
+
+                return BadRequest("Account doesn't belong to user.");
+            }
+            return BadRequest("Amount must be greater than 0,01");
+        }
     }
 }
