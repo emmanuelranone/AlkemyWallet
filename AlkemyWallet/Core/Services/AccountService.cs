@@ -2,6 +2,7 @@
 using AlkemyWallet.Core.Interfaces;
 using AlkemyWallet.Core.Mapper;
 using AlkemyWallet.Core.Models.DTO;
+using AlkemyWallet.Entities;
 using AlkemyWallet.Repositories.Interfaces;
 using AutoMapper;
 
@@ -11,11 +12,13 @@ namespace AlkemyWallet.Core.Services
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
+        //private readonly ITransactionService _transactionService;
 
-        public AccountService(IUnitOfWork unitOfWork, IMapper mapper)
+        public AccountService(IUnitOfWork unitOfWork, IMapper mapper)// ITransactionService transactionService)
         {
             _unitOfWork = unitOfWork;
             _mapper = mapper;
+            //_transactionService = transactionService;
         }
 
         // GET
@@ -89,6 +92,46 @@ namespace AlkemyWallet.Core.Services
             }
             else
                 return 0;
+        }
+
+        public async Task<TransactionDTO> TransferAsync (TransactionDTO transactionDTO)
+        {    
+            var accountOrigin = await _unitOfWork.AccountRepository.GetByIdAsync(transactionDTO.AccountId);
+            var accountDestiny = await _unitOfWork.AccountRepository.GetByIdAsync(transactionDTO.ToAccountId);
+            
+            if (accountDestiny is null)
+                return null;
+
+            if (accountOrigin.Money >= transactionDTO.Amount)
+            {
+                accountOrigin.Money -= transactionDTO.Amount;
+                await _unitOfWork.AccountRepository.UpdateAsync(accountOrigin);
+
+                accountDestiny.Money += transactionDTO.Amount;
+                await _unitOfWork.AccountRepository.UpdateAsync(accountDestiny);
+            } 
+            else
+                return null;
+
+            await _unitOfWork.SaveChangesAsync();
+
+            return transactionDTO;
+        }
+
+        public async Task<Account> CreateAsync(int id)
+        {
+            var account = new Account 
+            {
+                CreationDate = DateTime.Now,
+                IsBlocked = false,
+                Money = 0,
+                User_Id = id
+            };
+
+            account =   await _unitOfWork.AccountRepository.AddAsync(account);
+                        await _unitOfWork.SaveChangesAsync();
+
+            return account;
         }
     }
 }

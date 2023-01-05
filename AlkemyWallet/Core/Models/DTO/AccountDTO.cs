@@ -5,7 +5,7 @@ namespace AlkemyWallet.Core.Models.DTO
 {
     public class AccountDTO
     {        
-        public double Money { get; set; }
+        public decimal Money { get; set; }
         [ForeignKey("User")]
         public int User_Id { get; set; }
         public User User { get; set; }
