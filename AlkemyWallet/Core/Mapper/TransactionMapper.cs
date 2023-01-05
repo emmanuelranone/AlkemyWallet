@@ -16,7 +16,7 @@ namespace AlkemyWallet.Core.Mapper
             {
                 Amount = tEntity.Amount,
                 Concept = tEntity.Concept,
-                Date = tEntity.Date,
+                //Date = tEntity.Date,
                 Type = tEntity.Type,
                 ToAccountId = tEntity.ToAccountId
             };
@@ -31,7 +31,7 @@ namespace AlkemyWallet.Core.Mapper
                 Amount = tDTO.Amount,
                 Concept = tDTO.Concept,
                 Date = DateTime.Now,
-                Type = tDTO.Type,
+                Type = tDTO.Type.ToString(),
                 UserId = tDTO.UserId,
                 AccountId = tDTO.AccountId,
                 ToAccountId = tDTO.ToAccountId

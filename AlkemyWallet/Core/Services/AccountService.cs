@@ -99,7 +99,7 @@ namespace AlkemyWallet.Core.Services
             var accountOrigin = await _unitOfWork.AccountRepository.GetByIdAsync(transactionDTO.AccountId);
             var accountDestiny = await _unitOfWork.AccountRepository.GetByIdAsync(transactionDTO.ToAccountId);
             
-            if (accountDestiny is null)
+            if (accountDestiny is null || accountDestiny.Id == accountOrigin.Id)
                 return null;
 
             if (accountOrigin.Money >= transactionDTO.Amount)
@@ -132,6 +132,32 @@ namespace AlkemyWallet.Core.Services
                         await _unitOfWork.SaveChangesAsync();
 
             return account;
+        }
+
+        public async Task<TransactionDTO> DepositAsync(TransactionDTO transactionDTO)
+        {
+            try
+            {
+                if (transactionDTO.ToAccountId == transactionDTO.AccountId)
+                {
+
+                    //bring the account data by Id
+                    var account = await _unitOfWork.AccountRepository.GetByIdAsync(transactionDTO.AccountId);
+
+                    //Add the amount of money made by the transaction
+                    account.Money += transactionDTO.Amount;
+                    await _unitOfWork.AccountRepository.UpdateAsync(account);
+
+                    await _unitOfWork.SaveChangesAsync();
+
+                    return transactionDTO;
+                }
+                return null;
+            }
+            catch
+            {
+                return null;
+            }
         }
     }
 }
