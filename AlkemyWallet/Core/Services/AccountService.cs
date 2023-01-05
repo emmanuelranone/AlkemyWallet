@@ -2,6 +2,7 @@
 using AlkemyWallet.Core.Interfaces;
 using AlkemyWallet.Core.Mapper;
 using AlkemyWallet.Core.Models.DTO;
+using AlkemyWallet.Entities;
 using AlkemyWallet.Repositories.Interfaces;
 using AutoMapper;
 
@@ -115,6 +116,22 @@ namespace AlkemyWallet.Core.Services
             await _unitOfWork.SaveChangesAsync();
 
             return transactionDTO;
+        }
+
+        public async Task<Account> CreateAsync(int id)
+        {
+            var account = new Account 
+            {
+                CreationDate = DateTime.Now,
+                IsBlocked = false,
+                Money = 0,
+                User_Id = id
+            };
+
+            account =   await _unitOfWork.AccountRepository.AddAsync(account);
+                        await _unitOfWork.SaveChangesAsync();
+
+            return account;
         }
     }
 }

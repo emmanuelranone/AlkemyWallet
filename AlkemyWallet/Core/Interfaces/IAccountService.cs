@@ -1,5 +1,6 @@
-﻿using AlkemyWallet.Core.Helper;
+using AlkemyWallet.Core.Helper;
 using AlkemyWallet.Core.Models.DTO;
+using AlkemyWallet.Entities;
 
 namespace AlkemyWallet.Core.Interfaces
 {
@@ -11,5 +12,6 @@ namespace AlkemyWallet.Core.Interfaces
         PagedList<AccountListDTO> GetAllPage(int page);
         Task<int> Delete(int id);
         Task<TransactionDTO> TransferAsync (TransactionDTO transactionDTO);
+        Task<Account> CreateAsync(int id);
     }
 }
