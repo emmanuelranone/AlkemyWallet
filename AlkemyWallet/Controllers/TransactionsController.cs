@@ -28,7 +28,7 @@ namespace AlkemyWallet.Controllers
         //}
 
         /// <summary>
-        ///    Get all transactions. Only available for Administrator.
+        ///    Get. Transaction list page. Only available for Administrator.
         /// </summary>
         /// <param>Get All</param>
         /// <remarks>
