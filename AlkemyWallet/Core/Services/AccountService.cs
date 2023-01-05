@@ -98,7 +98,7 @@ namespace AlkemyWallet.Core.Services
             var account = await _unitOfWork.AccountRepository.GetByIdAsync(id);
 
             //Add the amount of money made by the transaction
-            account.Money += (double)transactionDTO.Amount;
+            account.Money += transactionDTO.Amount;
             await _unitOfWork.AccountRepository.UpdateAsync(account);
 
             //create transaction Entity for logging it
