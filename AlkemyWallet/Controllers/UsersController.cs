@@ -3,7 +3,6 @@ using AlkemyWallet.Core.Interfaces;
 using AlkemyWallet.Core.Models.DTO;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using System.Data;
 
 namespace AlkemyWallet.Controllers
 {
@@ -51,7 +50,26 @@ namespace AlkemyWallet.Controllers
             
         }
 
+        [HttpPost]
 
+        public async Task<IActionResult> Register([FromBody] RegisterDTO newUser)
+        {
+            var userCreated = await _userService.Register(newUser);
+            
+            return userCreated != null ? Created("Usuario Creado", userCreated) : BadRequest("There is an user registered whit that email. Please try another one");            
+        }
+        
+        [HttpGet("{id}")]
+        [Authorize(Roles = "Regular")]
+        public async Task<IActionResult> GetById(int id)
+        {
+            var user = await _userService.GetByIdAsync(id);
+
+            if (user != null)
+                return Ok(user);
+            else
+                return NotFound();
+        }
 
         [HttpDelete]
         [Authorize("Admin")]

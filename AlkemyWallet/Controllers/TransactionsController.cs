@@ -28,7 +28,7 @@ namespace AlkemyWallet.Controllers
         //}
 
         [HttpGet]
-        [Authorize("Admin")]
+        [Authorize(Roles = "Admin")]
         public IActionResult Get([FromQuery] int? page = 1)
         {
             try
@@ -57,7 +57,7 @@ namespace AlkemyWallet.Controllers
         }
 
         [HttpGet("{id}")]
-        [Authorize("Regular")]
+        [Authorize(Roles = "Regular")]
         public async Task<IActionResult> GetById(int id)
         {
             var userId = int.Parse(User.FindFirst("UserId").Value);
