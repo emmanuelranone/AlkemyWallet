@@ -58,6 +58,7 @@ namespace AlkemyWallet.Controllers
 
         [HttpGet("{id}")]
         [Authorize("Regular")]
+        [ServiceFilter(typeof(HttpResponseExceptionFilter))]
         public async Task<IActionResult> GetById(int id)
         {
             var user = int.Parse(User.Claims.First(x => x.Type == "UserId").Value);

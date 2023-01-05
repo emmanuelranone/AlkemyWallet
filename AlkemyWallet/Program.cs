@@ -30,7 +30,15 @@ builder.Services.AddHttpClient();
 //    config.BaseAddress = new Uri(configuration["Services:Myurl"]);
 //});
 
-builder.Services.AddControllers();
+/*builder.Services.AddControllers(options =>
+{
+    options.Filters.Add<HttpResponseExceptionFilter>();
+});*/
+
+builder.Services.AddScoped<HttpResponseExceptionFilter>();
+
+//builder.Services.AddControllers();
+
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
