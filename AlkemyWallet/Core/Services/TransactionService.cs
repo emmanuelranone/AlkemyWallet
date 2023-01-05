@@ -1,18 +1,22 @@
+using AlkemyWallet.Core.Helper;
 using AlkemyWallet.Core.Interfaces;
 using AlkemyWallet.Core.Mapper;
 using AlkemyWallet.Core.Models.DTO;
 using AlkemyWallet.Entities;
 using AlkemyWallet.Repositories.Interfaces;
+using AutoMapper;
 
 namespace AlkemyWallet.Core.Services
 {
     public class TransactionService : ITransactionService
     {
         private readonly IUnitOfWork _unitOfWork;
+        private readonly IMapper _mapper;
 
-        public TransactionService(IUnitOfWork unitOfWork)
+        public TransactionService(IUnitOfWork unitOfWork, IMapper mapper)
         {
             _unitOfWork = unitOfWork;
+            _mapper = mapper;
         }
     
         //GET
@@ -43,6 +47,19 @@ namespace AlkemyWallet.Core.Services
                 return null;
             else
                 return TransactionMapper.TransactionToTransactionById(transaction);
+        }
+
+        public PagedList<TransactionPagedDTO> GetAllPage(int page = 1)
+        {
+            if (page < 1) 
+                throw new ArgumentException("Argument must be greater than 0", "page");
+
+            var transactions = _unitOfWork.TransactionRepository.GetAllPaged(page, 10);
+
+            var transactionsDTO = _mapper.Map<List<TransactionPagedDTO>>(transactions);
+
+            var pagedTransactions = new PagedList<TransactionPagedDTO>(transactionsDTO, transactions.TotalCount, page);
+            return pagedTransactions;
         }
 
 
