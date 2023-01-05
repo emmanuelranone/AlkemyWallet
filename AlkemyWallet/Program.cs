@@ -10,6 +10,7 @@ using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using Microsoft.OpenApi.Models;
 using Microsoft.AspNetCore.Hosting;
+using AlkemyWallet.Core.Middleware;
 
 var builder = WebApplication.CreateBuilder(args);
 ConfigurationManager configuration = builder.Configuration;
@@ -26,6 +27,8 @@ builder.Services.AddScoped<IAccountService, AccountService>();
 builder.Services.AddScoped<ITransactionService, TransactionService>();
 builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddHttpClient();
+builder.Services.AddTransient<ErrorHandlingMiddleware>();
+
 //builder.Services.AddHttpClient("Myurl", config => {
 //    config.BaseAddress = new Uri(configuration["Services:Myurl"]);
 //});
@@ -113,6 +116,8 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+app.UseMiddleware<ErrorHandlingMiddleware>();
+
 
 app.UseHttpsRedirection();
 
