@@ -29,7 +29,7 @@ namespace AlkemyWallet.Controllers
         /// /// <response code="200"> Shows the list of Users.</response>
         /// /// <response code="400"> Shown when page doesn't exist.</response>
         /// /// <response code="401">If the user is not an administrator try to run the endpoint.</response>
-        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(UserListDTO))]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(PagedList<UserListDTO>))]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [HttpGet]
