@@ -3,6 +3,8 @@ using AlkemyWallet.Core.Mapper;
 using AlkemyWallet.Core.Models.DTO;
 using AlkemyWallet.Repositories.Interfaces;
 using AutoMapper;
+using Newtonsoft.Json;
+using System.Net;
 
 namespace AlkemyWallet.Core.Services;
 
@@ -36,7 +38,7 @@ public class RoleService : IRoleService
         {
             throw new Exception(ex.Message);
         }
-        
+
     }
 
     public async Task<RoleDTO> GetByIdAsync(int id)
