@@ -3,6 +3,7 @@ using AlkemyWallet.Core.Interfaces;
 using AlkemyWallet.Core.Models.DTO;
 using AlkemyWallet.Core.Services;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using System.Net;
 
@@ -14,10 +15,12 @@ namespace AlkemyWallet.Controllers
     public class AccountsController : ControllerBase
     {
         private readonly IAccountService _accountService;
+        private readonly IHttpClientFactory _httpClientFactory;
 
-        public AccountsController(IAccountService accountService)
+        public AccountsController(IAccountService accountService, IHttpClientFactory httpClientFactory)
         {
             _accountService = accountService;
+            _httpClientFactory = httpClientFactory;
         }
 
         [HttpGet]
@@ -96,6 +99,42 @@ namespace AlkemyWallet.Controllers
                 return NoContent();
             else
                 return NotFound();
+        }
+
+        // POST api/<AccountController>/5
+        [HttpPost("{id}")]
+        [Authorize(Roles = "Regular")]
+        public async Task<IActionResult> TransactionAsync (int id, TransactionDTO transactionDTO)
+        {   
+            var accountOrigin = await _accountService.GetByIdAsync(id);
+            //Obtenemos el User_id del Token de lac uenta logueada
+            var userId = int.Parse(User.FindFirst("UserId").Value);
+            
+            transactionDTO.UserId = userId; 
+
+            var result = transactionDTO; /// ver
+
+            if (userId == accountOrigin.User_Id)
+            {
+                //Transferencia
+                if (transactionDTO.ToAccountId != id)
+                {   
+                    transactionDTO.AccountId = id;
+                    transactionDTO.Date = DateTime.Parse(DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"));
+                    result = await _accountService.TransferAsync(transactionDTO);
+                }
+                else
+                {
+                    //Depósito
+                    //await _accountService.DepositAsync(userId, id, transactionDTO);
+                }
+            }
+            var launchUrl = LaunchUrl.GetApplicationUrl();
+
+            var client = _httpClientFactory.CreateClient("transactions");
+            var response = await client.PostAsJsonAsync(launchUrl + "/transactions", result);
+            var data = await response.Content.ReadAsStringAsync();
+            return Ok(data);
         }
     }
 }
