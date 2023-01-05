@@ -18,6 +18,21 @@ namespace AlkemyWallet.Core.Mapper
             return authMeDTO;
         }
 
+        public static User UserUpdateDtoToUser(UserUpdateDTO dto, User u)
+        {
+            if (dto.FirstName != null)
+                u.FirstName = dto.FirstName;
+
+            if (dto.LastName != null)
+                u.LastName = dto.LastName;
+
+            if (dto.Password != null)
+                u.Password = dto.Password;
+
+            return u;
+        }
+
+
         //public static UserListDTO userToUsserListDTO (this User user)
         //{
         //    UserListDTO userDTO = new UserListDTO()
