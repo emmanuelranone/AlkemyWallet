@@ -15,14 +15,11 @@ namespace AlkemyWallet.Core.Models.DTO
 
         [Required]
         public string Concept { get; set; }
-
-        public int UserId { get; set; }
-
         [Required]
         public int ToAccountId { get; set; }
-
         [Required, EnumDataType(typeof(TransactionTypes))]
         public string Type { get; set; }
+        public int UserId { get; set; }
         public DateTime Date { get; set; }       
         public int AccountId { get; set; }
     }

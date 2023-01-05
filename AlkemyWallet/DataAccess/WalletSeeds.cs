@@ -40,10 +40,10 @@ namespace AlkemyWallet.DataAccess
         public static void SeedAccounts(this ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Account>().HasData(
-                new Account { Id = 1, User_Id = 1, CreationDate = DateTime.Now, IsBlocked = false, Money = 10000.00 },
-                new Account { Id = 2, User_Id = 2, CreationDate = DateTime.Now, IsBlocked = false, Money = 20000.00 },
-                new Account { Id = 3, User_Id = 1, CreationDate = DateTime.Now, IsBlocked = false, Money = 5000.00 },
-                new Account { Id = 4, User_Id = 2, CreationDate = DateTime.Now, IsBlocked = false, Money = 2000.00 }
+                new Account { Id = 1, User_Id = 1, CreationDate = DateTime.Now, IsBlocked = false, Money = 10000.00m },
+                new Account { Id = 2, User_Id = 2, CreationDate = DateTime.Now, IsBlocked = false, Money = 20000.00m},
+                new Account { Id = 3, User_Id = 1, CreationDate = DateTime.Now, IsBlocked = false, Money = 5000.00m },
+                new Account { Id = 4, User_Id = 2, CreationDate = DateTime.Now, IsBlocked = false, Money = 2000.00m }
                 );
 
             // For pagination test

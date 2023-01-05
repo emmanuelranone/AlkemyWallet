@@ -103,6 +103,9 @@ namespace AlkemyWallet.Controllers
                 var userId = int.Parse(User.FindFirst("UserId").Value);
 
                 transactionDTO.UserId = userId;
+                transactionDTO.Date = DateTime.Now;
+                transactionDTO.AccountId = id;
+                
 
                 //String respuesta de la tarea realizada
                 string response;
