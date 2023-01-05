@@ -6,7 +6,7 @@ namespace AlkemyWallet.Entities
     {
         [Column("creationDate")]
         public DateTime CreationDate { get; set; }
-        [Column("money", TypeName = "decimal(9,2)")]
+        [Column("money", TypeName = "decimal(9, 2)")]
         public decimal Money { get; set; }
         [Column("isBlocked")]
         public bool IsBlocked { get; set; }

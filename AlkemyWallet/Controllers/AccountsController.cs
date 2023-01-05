@@ -6,6 +6,12 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using System.Net;
+using System.Net.Http;
+using static System.Net.Mime.MediaTypeNames;
+using System.Text.Json;
+using System.Text;
+using System;
+using Azure;
 
 namespace AlkemyWallet.Controllers
 {
@@ -104,37 +110,62 @@ namespace AlkemyWallet.Controllers
         // POST api/<AccountController>/5
         [HttpPost("{id}")]
         [Authorize(Roles = "Regular")]
-        public async Task<IActionResult> TransactionAsync (int id, TransactionDTO transactionDTO)
-        {   
-            var accountOrigin = await _accountService.GetByIdAsync(id);
-            //Obtenemos el User_id del Token de lac uenta logueada
-            var userId = int.Parse(User.FindFirst("UserId").Value);
-            
-            transactionDTO.UserId = userId; 
-
-            var result = transactionDTO; /// ver
-
-            if (userId == accountOrigin.User_Id)
+        public async Task<IActionResult> TransactionAsync(int id, TransactionDTO transactionDTO)
+        {
+            if (transactionDTO.Amount >= (decimal)0.01)
             {
-                //Transferencia
-                if (transactionDTO.ToAccountId != id)
-                {   
-                    transactionDTO.AccountId = id;
-                    transactionDTO.Date = DateTime.Parse(DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"));
-                    result = await _accountService.TransferAsync(transactionDTO);
-                }
-                else
-                {
-                    //Depósito
-                    //await _accountService.DepositAsync(userId, id, transactionDTO);
-                }
-            }
-            var launchUrl = LaunchUrl.GetApplicationUrl();
+                var httpClient = _httpClientFactory.CreateClient("Myurl");
+                var launchUrl = LaunchUrl.GetApplicationUrl();
+                
 
-            var client = _httpClientFactory.CreateClient("transactions");
-            var response = await client.PostAsJsonAsync(launchUrl + "/transactions", result);
-            var data = await response.Content.ReadAsStringAsync();
-            return Ok(data);
+                //Obtenemos la account del id ingresado en el path
+                var account = await _accountService.GetByIdAsync(id);
+                //Obtenemos el User_id del Token de la cuenta logueada
+                var userId = int.Parse(User.FindFirst("UserId").Value);
+
+                transactionDTO.UserId = userId;
+                transactionDTO.Date = DateTime.Parse(DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"));
+                transactionDTO.AccountId = id;
+
+               
+                //String respuesta de la tarea realizada
+                var responseString = transactionDTO;
+
+                if (userId == account.User_Id)
+                {
+                    if (transactionDTO.Type.ToString() == "Transferencia")
+                    {
+                        responseString = await _accountService.TransferAsync(transactionDTO);                        
+                    }
+                    else if (transactionDTO.Type.ToString() == "Deposito")
+                    {                        
+                        responseString = await _accountService.DepositAsync(transactionDTO);
+                    }
+                    else
+                    {
+                        return BadRequest("Type of transaction doesn't exist");
+                    }
+
+                    if (responseString != null)
+                    {
+                        //log of the transaction on Endpoint
+                        using var httpResponseMessage =
+                            await httpClient.PostAsJsonAsync(launchUrl + "/transactions", transactionDTO);
+
+                        var data = await httpResponseMessage.Content.ReadAsStringAsync();
+
+                        return Ok(responseString);
+                    }
+
+                    return BadRequest("Please verify destination account");
+                    
+                }
+
+                return BadRequest("Account does not belong to user.");
+            }
+            return BadRequest("Amount must be greater than 0,01");
+            
         }
-    }
+
+        }
 }
