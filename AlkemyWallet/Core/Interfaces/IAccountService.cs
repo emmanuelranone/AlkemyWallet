@@ -13,6 +13,6 @@ namespace AlkemyWallet.Core.Interfaces
         Task<int> Delete(int id);
         Task<TransactionDTO> TransferAsync (TransactionDTO transactionDTO);
         Task<Account> CreateAsync(int id);
-        Task<string> DepositAsync(int id, TransactionDTO transactionDTO);
+        Task<TransactionDTO> DepositAsync(TransactionDTO transactionDTO);
     }
 }

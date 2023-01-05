@@ -11,6 +11,7 @@ using static System.Net.Mime.MediaTypeNames;
 using System.Text.Json;
 using System.Text;
 using System;
+using Azure;
 
 namespace AlkemyWallet.Controllers
 {
@@ -114,7 +115,8 @@ namespace AlkemyWallet.Controllers
             if (transactionDTO.Amount >= (decimal)0.01)
             {
                 var httpClient = _httpClientFactory.CreateClient("Myurl");
-                string url = "transactions";
+                var launchUrl = LaunchUrl.GetApplicationUrl();
+                
 
                 //Obtenemos la account del id ingresado en el path
                 var account = await _accountService.GetByIdAsync(id);
@@ -124,49 +126,45 @@ namespace AlkemyWallet.Controllers
                 transactionDTO.UserId = userId;
                 transactionDTO.Date = DateTime.Parse(DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"));
                 transactionDTO.AccountId = id;
-                
 
+               
                 //String respuesta de la tarea realizada
-                string response;
+                var responseString = transactionDTO;
 
                 if (userId == account.User_Id)
                 {
-                    if (transactionDTO.Type == "Transferencia")
+                    if (transactionDTO.Type.ToString() == "Transferencia")
                     {
-                        //response = await _accountService.TransferAsync(id, transactionDTO);
-                        response = "";
+                        responseString = await _accountService.TransferAsync(transactionDTO);                        
                     }
-                    else if (transactionDTO.Type == "Deposito")
-                    {
-                        response = await _accountService.DepositAsync(id, transactionDTO);
+                    else if (transactionDTO.Type.ToString() == "Deposito")
+                    {                        
+                        responseString = await _accountService.DepositAsync(transactionDTO);
                     }
                     else
                     {
                         return BadRequest("Type of transaction doesn't exist");
                     }
 
-                    var transactionDTOJSON = new StringContent(
-                        JsonSerializer.Serialize(transactionDTO),
-                        Encoding.UTF8,
-                        Application.Json);
+                    if (responseString != null)
+                    {
+                        //log of the transaction on Endpoint
+                        using var httpResponseMessage =
+                            await httpClient.PostAsJsonAsync(launchUrl + "/transactions", transactionDTO);
 
-                    using var httpResponseMessage =
-                        await httpClient.PostAsync(url, transactionDTOJSON);
+                        var data = await httpResponseMessage.Content.ReadAsStringAsync();
 
-                    httpResponseMessage.EnsureSuccessStatusCode();
+                        return Ok(responseString);
+                    }
+
+                    return BadRequest("Please verify destination account");
                     
-                    return Ok(response);
                 }
 
-                return BadRequest("Account doesn't belong to user.");
+                return BadRequest("Account does not belong to user.");
             }
             return BadRequest("Amount must be greater than 0,01");
-            var launchUrl = LaunchUrl.GetApplicationUrl();
-
-            var client = _httpClientFactory.CreateClient("transactions");
-            var response = await client.PostAsJsonAsync(launchUrl + "/transactions", result);
-            var data = await response.Content.ReadAsStringAsync();
-            return Ok(data);
+            
         }
 
         }

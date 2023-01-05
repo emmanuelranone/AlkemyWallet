@@ -26,9 +26,9 @@ builder.Services.AddScoped<IAccountService, AccountService>();
 builder.Services.AddScoped<ITransactionService, TransactionService>();
 builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddHttpClient();
-builder.Services.AddHttpClient("Myurl", config => {
-    config.BaseAddress = new Uri(configuration["Services:Myurl"]);
-});
+//builder.Services.AddHttpClient("Myurl", config => {
+//    config.BaseAddress = new Uri(configuration["Services:Myurl"]);
+//});
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
