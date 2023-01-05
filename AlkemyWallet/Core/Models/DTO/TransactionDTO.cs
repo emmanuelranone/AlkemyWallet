@@ -1,3 +1,5 @@
+using AlkemyWallet.Entities;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -21,6 +23,8 @@ namespace AlkemyWallet.Core.Models.DTO
 
         [Required, EnumDataType(typeof(TransactionTypes))]
         public string Type { get; set; }
+        public DateTime Date { get; set; }       
+        public int AccountId { get; set; }
     }
 
     public enum TransactionTypes
