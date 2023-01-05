@@ -62,23 +62,39 @@ namespace AlkemyWallet.Core.Services
             return pagedTransactions;
         }
 
-
         // DELETE
-        public async Task Delete(int id)
+        public async Task<int> Delete(int id)
         {
-            await _unitOfWork.TransactionRepository.Delete(id);
-            await _unitOfWork.SaveChangesAsync();
+            var deleted = await _unitOfWork.TransactionRepository.Delete(id);
+            if (deleted > 0)
+            {
+                await _unitOfWork.SaveChangesAsync();
+                return id;
+            }
+            else
+               return 0;          
         }        
 
+        
         // UPDATE
-        public async Task UpdateAsync(int id, TransactionDetailsDTO transactionDTO)
+        public async Task<Transaction> UpdateAsync(int id, TransactionDetailsDTO transactionDTO)
         {
-            var transaction = await _unitOfWork.TransactionRepository.GetByIdAsync(id);
-            
-            transaction = TransactionMapper.TransactionDTOToTransaction(transactionDTO, transaction);
+            try
+            {
+                var transaction = await _unitOfWork.TransactionRepository.GetByIdAsync(id);
+                
+                transaction = TransactionMapper.TransactionDTOToTransaction(transactionDTO, transaction);
 
-            await _unitOfWork.TransactionRepository.UpdateAsync(transaction);
-            await _unitOfWork.SaveChangesAsync();
+                var result = await _unitOfWork.TransactionRepository.UpdateAsync(transaction);
+                await _unitOfWork.SaveChangesAsync();
+
+                return result;
+            }
+            catch (Exception e)
+            {      
+                throw new Exception(e.Message);
+            }
+            
         }
 
         // POST
