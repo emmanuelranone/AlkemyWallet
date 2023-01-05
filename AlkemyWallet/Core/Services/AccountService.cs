@@ -102,18 +102,18 @@ namespace AlkemyWallet.Core.Services
             await _unitOfWork.AccountRepository.UpdateAsync(account);
 
             //create transaction Entity for logging it
-            var transaction = new Transaction()
-            {
-                Amount = transactionDTO.Amount,
-                Concept = transactionDTO.Concept,
-                Date = DateTime.Now,
-                Type = transactionDTO.Type,
-                UserId = account.User_Id,
-                AccountId = id,
-                ToAccountId = transactionDTO.ToAccountId
-            };
+            //var transaction = new Transaction()
+            //{
+            //    Amount = transactionDTO.Amount,
+            //    Concept = transactionDTO.Concept,
+            //    Date = DateTime.Now,
+            //    Type = transactionDTO.Type,
+            //    UserId = account.User_Id,
+            //    AccountId = id,
+            //    ToAccountId = transactionDTO.ToAccountId
+            //};
 
-            await _unitOfWork.TransactionRepository.AddAsync(transaction);
+            //await _unitOfWork.TransactionRepository.AddAsync(transaction);
 
             await _unitOfWork.SaveChangesAsync();
 

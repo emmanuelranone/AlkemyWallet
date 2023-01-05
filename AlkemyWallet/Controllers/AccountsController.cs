@@ -5,6 +5,10 @@ using AlkemyWallet.Core.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Net;
+using System.Net.Http;
+using static System.Net.Mime.MediaTypeNames;
+using System.Text.Json;
+using System.Text;
 
 namespace AlkemyWallet.Controllers
 {
@@ -14,10 +18,13 @@ namespace AlkemyWallet.Controllers
     public class AccountsController : ControllerBase
     {
         private readonly IAccountService _accountService;
+        private IHttpClientFactory _httpClientFactory;
 
-        public AccountsController(IAccountService accountService)
+
+        public AccountsController(IAccountService accountService, IHttpClientFactory httpClientFactory)
         {
             _accountService = accountService;
+            _httpClientFactory = httpClientFactory;
         }
 
         [HttpGet]
@@ -97,6 +104,9 @@ namespace AlkemyWallet.Controllers
         {
             if (transactionDTO.Amount >= (decimal)0.01)
             {
+                var httpClient = _httpClientFactory.CreateClient("Myurl");
+                string url = "transactions";
+
                 //Obtenemos la account del id ingresado en el path
                 var account = await _accountService.GetByIdAsync(id);
                 //Obtenemos el User_id del Token de la cuenta logueada
@@ -126,6 +136,16 @@ namespace AlkemyWallet.Controllers
                         return BadRequest("Type of transaction doesn't exist");
                     }
 
+                    var transactionDTOJSON = new StringContent(
+                        JsonSerializer.Serialize(transactionDTO),
+                        Encoding.UTF8,
+                        Application.Json);
+
+                    using var httpResponseMessage =
+                        await httpClient.PostAsync(url, transactionDTOJSON);
+
+                    httpResponseMessage.EnsureSuccessStatusCode();
+                    
                     return Ok(response);
                 }
 
