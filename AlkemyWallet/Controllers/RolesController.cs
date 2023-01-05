@@ -1,10 +1,7 @@
 ﻿using AlkemyWallet.Core.Interfaces;
 using AlkemyWallet.Core.Models.DTO;
-using AlkemyWallet.Entities;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Newtonsoft.Json;
-using System.Net;
 
 namespace AlkemyWallet.Controllers;
 
@@ -19,19 +16,18 @@ public class RolesController : ControllerBase
         _roleService = roleService;
     }
 
-
-    [HttpGet]
-    [Authorize(Roles = "Admin")]
     /// <summary>
     /// Get all roles. Only available for Administrators.
     /// </summary>
     /// <remarks>
     /// Sample request: api/roles
     /// </remarks>
-    /// <returns>List<Roles></returns>
+    /// <returns>List Roles</returns>
     /// <response code="200">All Roles in order</response>
     /// <response code="401">The client request has not been completed because it lacks valid authentication credentials for the requested resource</response>
     /// <response code="403">When an no admin user try to use the endpoint</response>
+    [HttpGet]
+    [Authorize(Roles = "Admin")]
     [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(IEnumerable<RoleDTO>))]
     [ProducesResponseType(StatusCodes.Status204NoContent, Type = typeof(Nullable))]
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
@@ -48,17 +44,11 @@ public class RolesController : ControllerBase
         }
         catch (Exception ex)
         {
-            return StatusCode((int)HttpStatusCode.BadRequest,
-                new
-                {
-                    message = "Test",
-                    errors = new[] { new { error = ex.Message } }
-                });
+            throw new Exception(ex.Message);
         }
     }
 
-    [HttpGet("{id}")]
-    [Authorize(Roles = "Admin")]
+
     /// <summary>
     /// Get all roles for id. Only available for Administrators.
     /// </summary>
@@ -70,6 +60,8 @@ public class RolesController : ControllerBase
     /// <response code="200">All Roles in order</response>
     /// <response code="401">The client request has not been completed because it lacks valid authentication credentials for the requested resource</response>
     /// <response code="403">When an no admin user try to use the endpoint</response>
+    [HttpGet("{id}")]
+    [Authorize(Roles = "Admin")]
     [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(IEnumerable<RoleDTO>))]
     [ProducesResponseType(StatusCodes.Status204NoContent, Type = typeof(Nullable))]
     //[ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(IEnumerable<ErrorHttpCodes>))]

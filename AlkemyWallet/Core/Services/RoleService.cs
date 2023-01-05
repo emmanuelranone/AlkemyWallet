@@ -3,8 +3,6 @@ using AlkemyWallet.Core.Mapper;
 using AlkemyWallet.Core.Models.DTO;
 using AlkemyWallet.Repositories.Interfaces;
 using AutoMapper;
-using Newtonsoft.Json;
-using System.Net;
 
 namespace AlkemyWallet.Core.Services;
 
