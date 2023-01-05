@@ -1,6 +1,7 @@
 using AlkemyWallet.Core.Helper;
 using AlkemyWallet.Core.Interfaces;
 using AlkemyWallet.Core.Models.DTO;
+using AlkemyWallet.Entities;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -47,7 +48,7 @@ namespace AlkemyWallet.Controllers
                 string error = ex.Message;
                 return BadRequest(error);
             }
-            
+
         }
 
         [HttpPost]
@@ -55,10 +56,10 @@ namespace AlkemyWallet.Controllers
         public async Task<IActionResult> Register([FromBody] RegisterDTO newUser)
         {
             var userCreated = await _userService.Register(newUser);
-            
-            return userCreated != null ? Created("Usuario Creado", userCreated) : BadRequest("There is an user registered whit that email. Please try another one");            
+
+            return userCreated != null ? Created("Usuario Creado", userCreated) : BadRequest("There is an user registered whit that email. Please try another one");
         }
-        
+
         [HttpGet("{id}")]
         [Authorize(Roles = "Regular")]
         public async Task<IActionResult> GetById(int id)
@@ -85,7 +86,37 @@ namespace AlkemyWallet.Controllers
                 return NotFound("User doesn't exist");
             }
 
-            
+
+        }
+
+        [HttpPut("{id}")]
+        [Authorize(Roles = "Regular")]
+        public async Task<IActionResult> Put(int id, UserUpdateDTO dto)
+        {
+            var userId = int.Parse(User.FindFirst("UserId").Value);
+            User result = null;
+
+            if (userId != id)
+            {
+                return Forbid();
+            }
+
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    result = await _userService.UpdateAsync(id, dto);
+                }
+                catch
+                {
+                    return BadRequest();
+                }
+            }
+
+            if(result != null)
+                return Ok("User information updated");
+            else 
+                return BadRequest();
         }
 
     }
