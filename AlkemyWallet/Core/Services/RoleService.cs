@@ -19,20 +19,35 @@ public class RoleService : IRoleService
 
     public async Task<IEnumerable<RoleDTO>> GetAllAsync()
     {
-        var roles = await _unitOfWork.RoleRepository.GetAllAsync();
-
-        var rolesDTO = new List<RoleDTO>();
-
-        foreach (var role in roles)
+        try
         {
-            rolesDTO.Add(RoleMapper.RoleToRoleDTO(role));
-        }
+            var roles = await _unitOfWork.RoleRepository.GetAllAsync();
 
-        return rolesDTO;
+            var rolesDTO = new List<RoleDTO>();
+
+            foreach (var role in roles)
+            {
+                rolesDTO.Add(RoleMapper.RoleToRoleDTO(role));
+            }
+
+            return rolesDTO;
+        }
+        catch (Exception ex)
+        {
+            throw new Exception(ex.Message);
+        }
+        
     }
 
     public async Task<RoleDTO> GetByIdAsync(int id)
     {
-        return _mapper.Map<RoleDTO>(await _unitOfWork.RoleRepository.GetByIdAsync(id));   
+        try
+        {
+            return _mapper.Map<RoleDTO>(await _unitOfWork.RoleRepository.GetByIdAsync(id));
+        }
+        catch (Exception ex)
+        {
+            throw new Exception(ex.Message);
+        }
     }
 }
