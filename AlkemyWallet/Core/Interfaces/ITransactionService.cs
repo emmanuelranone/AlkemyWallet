@@ -14,9 +14,9 @@ namespace AlkemyWallet.Core.Interfaces
         Task <List<TransactionListDTO>> GetAllAsync();
         Task<TransactionDetailsDTO> GetById(int id, int UserId);
         PagedList<TransactionPagedDTO> GetAllPage(int page);
-        Task Delete(int id);
+        Task<int> Delete(int id);
 
-        Task UpdateAsync(int id, TransactionDetailsDTO transactionDTO);
+        Task<Transaction> UpdateAsync(int id, TransactionDetailsDTO transactionDTO);
 
         Task<TransactionDTO> CreateTransactionAsync(TransactionDTO transactionDTO);
     }
