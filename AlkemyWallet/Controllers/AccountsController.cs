@@ -60,11 +60,19 @@ namespace AlkemyWallet.Controllers
             return await _accountService.GetByIdAsync(id);
         }
 
-        //// POST api/<AccountController>
-        //[HttpPost]
-        //public void Post([FromBody] string value)
-        //{
-        //}
+        [HttpPost]
+        [Authorize(Roles = "Regular")]
+        public async Task<IActionResult> Post()
+        {
+            var id = int.Parse(User.FindFirst("UserId").Value);
+
+            var result = await _accountService.CreateAsync(id);
+
+            if (result != null)
+                return Ok();
+             
+            return BadRequest();
+        }
 
         [HttpPatch("{id}")]
         [Authorize(Roles = "Admin")]
