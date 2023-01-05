@@ -24,6 +24,5 @@ namespace AlkemyWallet.Core.Mapper
             account.IsBlocked = accountDTO.IsBlocked;
             return account;
         }
-
     }
 }
