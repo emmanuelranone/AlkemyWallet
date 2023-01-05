@@ -3,12 +3,14 @@ using AlkemyWallet.Core.Interfaces;
 using AlkemyWallet.Core.Models.DTO;
 using AlkemyWallet.Core.Services;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using System.Net;
 using System.Net.Http;
 using static System.Net.Mime.MediaTypeNames;
 using System.Text.Json;
 using System.Text;
+using System;
 
 namespace AlkemyWallet.Controllers
 {
@@ -18,8 +20,7 @@ namespace AlkemyWallet.Controllers
     public class AccountsController : ControllerBase
     {
         private readonly IAccountService _accountService;
-        private IHttpClientFactory _httpClientFactory;
-
+        private readonly IHttpClientFactory _httpClientFactory;
 
         public AccountsController(IAccountService accountService, IHttpClientFactory httpClientFactory)
         {
@@ -67,11 +68,19 @@ namespace AlkemyWallet.Controllers
             return await _accountService.GetByIdAsync(id);
         }
 
-        //// POST api/<AccountController>
-        //[HttpPost]
-        //public void Post([FromBody] string value)
-        //{
-        //}
+        [HttpPost]
+        [Authorize(Roles = "Regular")]
+        public async Task<IActionResult> Post()
+        {
+            var id = int.Parse(User.FindFirst("UserId").Value);
+
+            var result = await _accountService.CreateAsync(id);
+
+            if (result != null)
+                return Ok();
+             
+            return BadRequest();
+        }
 
         [HttpPatch("{id}")]
         [Authorize(Roles = "Admin")]
@@ -113,7 +122,7 @@ namespace AlkemyWallet.Controllers
                 var userId = int.Parse(User.FindFirst("UserId").Value);
 
                 transactionDTO.UserId = userId;
-                transactionDTO.Date = DateTime.Now;
+                transactionDTO.Date = DateTime.Parse(DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"));
                 transactionDTO.AccountId = id;
                 
 
@@ -152,6 +161,13 @@ namespace AlkemyWallet.Controllers
                 return BadRequest("Account doesn't belong to user.");
             }
             return BadRequest("Amount must be greater than 0,01");
+            var launchUrl = LaunchUrl.GetApplicationUrl();
+
+            var client = _httpClientFactory.CreateClient("transactions");
+            var response = await client.PostAsJsonAsync(launchUrl + "/transactions", result);
+            var data = await response.Content.ReadAsStringAsync();
+            return Ok(data);
         }
-    }
+
+        }
 }
