@@ -1,17 +1,9 @@
 ﻿using AlkemyWallet.Core.Helper;
 using AlkemyWallet.Core.Interfaces;
 using AlkemyWallet.Core.Models.DTO;
-using AlkemyWallet.Core.Services;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using System.Net;
-using System.Net.Http;
-using static System.Net.Mime.MediaTypeNames;
-using System.Text.Json;
-using System.Text;
-using System;
-using Azure;
 
 namespace AlkemyWallet.Controllers
 {
@@ -29,6 +21,17 @@ namespace AlkemyWallet.Controllers
             _httpClientFactory = httpClientFactory;
         }
 
+        /// <summary>
+        /// Get a paginated list of accounts. Only available for Administrators.
+        /// </summary>
+        /// <returns>Return a paginated account list</returns>
+        /// <response code="200">Success request</response>
+        /// <response code="401">User not authenticated</response>
+        /// <response code="403">User with no valid credentials</response>
+        /// <response code="404">Source not found</response>
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(PagedList<AccountListDTO>))]
+        [ProducesResponseType(StatusCodes.Status403Forbidden)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [HttpGet]
         [Authorize(Roles = "Admin")]
         public IActionResult Get([FromQuery] int? page = 1)
@@ -61,7 +64,17 @@ namespace AlkemyWallet.Controllers
             }
         }
 
-        // GET api/<AccountController>/5
+        /// <summary>
+        /// Get an account by id. Only available for Administrators.
+        /// </summary>
+        /// <returns>The account requested by id</returns>
+        /// <response code="200">Success request</response>
+        /// <response code="401">User not authenticated</response>
+        /// <response code="403">User with no valid credentials</response>
+        /// <response code="404">Source not found</response>
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(PagedList<AccountDTO>))]
+        [ProducesResponseType(StatusCodes.Status403Forbidden)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [HttpGet("{id}")]
         [Authorize("Admin")]
         public async Task<AccountDTO> Get(int id)
@@ -69,6 +82,17 @@ namespace AlkemyWallet.Controllers
             return await _accountService.GetByIdAsync(id);
         }
 
+        /// <summary>
+        /// Create an account. Only available for Regular user.
+        /// </summary>
+        /// <returns>OkResult object if succeed</returns>
+        /// <response code="200">Success request</response>
+        /// <response code="401">User not authenticated</response>
+        /// <response code="403">User with no valid credentials</response>
+        /// <response code="404">Source not found</response>
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(OkResult))]
+        [ProducesResponseType(StatusCodes.Status403Forbidden)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [HttpPost]
         [Authorize(Roles = "Regular")]
         public async Task<IActionResult> Post()
@@ -83,6 +107,17 @@ namespace AlkemyWallet.Controllers
             return BadRequest();
         }
 
+        /// <summary>
+        /// Get a paginated list of accounts. Only available for Administrators.
+        /// </summary>
+        /// <returns>Return a modified account object</returns>
+        /// <response code="200">Success request</response>
+        /// <response code="401">User not authenticated</response>
+        /// <response code="403">User with no valid credentials</response>
+        /// <response code="404">Source not found</response>
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(AccountUpdateDTO))]
+        [ProducesResponseType(StatusCodes.Status403Forbidden)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [HttpPatch("{id}")]
         [Authorize(Roles = "Admin")]
         public async Task<IActionResult> PatchAsync(int id, AccountUpdateDTO accountDTO)
@@ -94,9 +129,18 @@ namespace AlkemyWallet.Controllers
             return Ok(updatedAccount);
         }
 
+        /// <summary>
+        /// Delete an account by id. Only available for Administrators.
+        /// </summary>
+        /// <returns>No content returned</returns>
+        /// <response code="200">Success request</response>
+        /// <response code="401">User not authenticated</response>
+        /// <response code="403">User with no valid credentials</response>
+        /// <response code="404">Source not found</response>
         [HttpDelete("{id}")]
-        //[ProducesResponseType((int)HttpStatusCode.NoContent)]
-        //[ProducesResponseType((int)HttpStatusCode.NotFound)]
+        [ProducesResponseType((int)HttpStatusCode.NoContent)]
+        [ProducesResponseType((int)HttpStatusCode.NotFound)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Delete(int id)
         {
@@ -107,7 +151,17 @@ namespace AlkemyWallet.Controllers
                 return NotFound();
         }
 
-        // POST api/<AccountController>/5
+        /// <summary>
+        /// Make a deposit or transaction. Only available for Regular users.
+        /// </summary>
+        /// <returns>Return a transaction object</returns>
+        /// <response code="200">Success request</response>
+        /// <response code="401">User not authenticated</response>
+        /// <response code="403">User with no valid credentials</response>
+        /// <response code="404">Source not found</response>
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(TransactionDTO))]
+        [ProducesResponseType(StatusCodes.Status403Forbidden)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [HttpPost("{id}")]
         [Authorize(Roles = "Regular")]
         public async Task<IActionResult> TransactionAsync(int id, TransactionDTO transactionDTO)
