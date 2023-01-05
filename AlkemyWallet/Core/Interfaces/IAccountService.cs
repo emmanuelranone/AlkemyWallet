@@ -1,4 +1,5 @@
 ﻿using AlkemyWallet.Core.Models.DTO;
+using AlkemyWallet.Entities;
 
 namespace AlkemyWallet.Core.Interfaces
 {
@@ -7,5 +8,6 @@ namespace AlkemyWallet.Core.Interfaces
         Task<IEnumerable<AccountDTO>> GetAllAsync();
         Task<AccountDTO> GetByIdAsync(int id);
         Task<AccountUpdateDTO> UpdateAsync(int id, AccountUpdateDTO accountDTO);
+        Task<Account> CreateAsync(int id);
     }
 }
