@@ -120,6 +120,7 @@ namespace AlkemyWallet.Controllers
                 if (transactionDTO.ToAccountId != id)
                 {   
                     transactionDTO.AccountId = id;
+                    transactionDTO.Date = DateTime.Parse(DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"));
                     result = await _accountService.TransferAsync(transactionDTO);
                 }
                 else
