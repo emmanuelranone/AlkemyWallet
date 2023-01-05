@@ -11,11 +11,13 @@ namespace AlkemyWallet.Core.Services
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
+        //private readonly ITransactionService _transactionService;
 
-        public AccountService(IUnitOfWork unitOfWork, IMapper mapper)
+        public AccountService(IUnitOfWork unitOfWork, IMapper mapper)// ITransactionService transactionService)
         {
             _unitOfWork = unitOfWork;
             _mapper = mapper;
+            //_transactionService = transactionService;
         }
 
         // GET
@@ -89,6 +91,36 @@ namespace AlkemyWallet.Core.Services
             }
             else
                 return 0;
+        }
+
+        public async Task<string> TransferAsync (int id, TransactionDTO transactionDTO)
+        {    
+            //FALTA VALIDAR EL Nº DE CUENTA CORRESPONDIENTE AL ID DEL USUARIO (TOKEN)
+
+            //Obtenemos la cuenta de origen
+            var account = await _unitOfWork.AccountRepository.GetByIdAsync(id);
+            //Obtenemos la cuenta de destino
+            var toAccount = await _unitOfWork.AccountRepository.GetByIdAsync(transactionDTO.ToAccountId);
+
+            //Verificamos si el saldo disponible es mayor al monto de la transferencia
+            if (account.Money >= transactionDTO.Amount)
+            {
+                //Descontamos el saldo según el importe enviado
+                account.Money = account.Money - transactionDTO.Amount;
+                await _unitOfWork.AccountRepository.UpdateAsync(account);
+            };
+
+            //Ingresamos el importe a la cuenta de destino
+            toAccount.Money = toAccount.Money + transactionDTO.Amount;
+            await _unitOfWork.AccountRepository.UpdateAsync(toAccount);
+
+            //Registramos la transacción
+            //await _transactionService.CreateTransactionAsync(transactionDTO);
+
+            //Guardamos los cambios
+            await _unitOfWork.SaveChangesAsync();
+
+            return "Transferencia realizada con éxito";
         }
     }
 }

@@ -89,5 +89,31 @@ namespace AlkemyWallet.Controllers
             else
                 return NotFound();
         }
+
+        // POST api/<AccountController>/5
+        [HttpPost("{id}")]
+        [Authorize(Roles = "Regular")]
+        public async Task TransactionAsync (int id, TransactionDTO transactionDTO)
+        {   
+            var account = await _accountService.GetByIdAsync(id);
+            //Obtenemos el User_id del Token de lac uenta logueada
+            var userId = int.Parse(User.FindFirst("UserId").Value);
+            
+            transactionDTO.UserId = userId;
+
+            if (userId == account.User_Id)
+            {
+                //Transferencia
+                if (transactionDTO.ToAccountId != id)
+                {   
+                    await _accountService.TransferAsync(id, transactionDTO);
+                }
+                else
+                {
+                    //Depósito
+                    //await _accountService.DepositAsync(userId, id, transactionDTO);
+                }
+            }
+        }
     }
 }

@@ -10,5 +10,6 @@ namespace AlkemyWallet.Core.Interfaces
         Task<AccountUpdateDTO> UpdateAsync(int id, AccountUpdateDTO accountDTO);
         PagedList<AccountListDTO> GetAllPage(int page);
         Task<int> Delete(int id);
+        Task<string> TransferAsync (int id, TransactionDTO transactionDTO);
     }
 }
