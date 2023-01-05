@@ -93,34 +93,28 @@ namespace AlkemyWallet.Core.Services
                 return 0;
         }
 
-        public async Task<string> TransferAsync (int id, TransactionDTO transactionDTO)
+        public async Task<TransactionDTO> TransferAsync (TransactionDTO transactionDTO)
         {    
-            //FALTA VALIDAR EL Nº DE CUENTA CORRESPONDIENTE AL ID DEL USUARIO (TOKEN)
+            var accountOrigin = await _unitOfWork.AccountRepository.GetByIdAsync(transactionDTO.AccountId);
+            var accountDestiny = await _unitOfWork.AccountRepository.GetByIdAsync(transactionDTO.ToAccountId);
+            
+            if (accountDestiny is null)
+                return null;
 
-            //Obtenemos la cuenta de origen
-            var account = await _unitOfWork.AccountRepository.GetByIdAsync(id);
-            //Obtenemos la cuenta de destino
-            var toAccount = await _unitOfWork.AccountRepository.GetByIdAsync(transactionDTO.ToAccountId);
-
-            //Verificamos si el saldo disponible es mayor al monto de la transferencia
-            if (account.Money >= transactionDTO.Amount)
+            if (accountOrigin.Money >= transactionDTO.Amount)
             {
-                //Descontamos el saldo según el importe enviado
-                account.Money = account.Money - transactionDTO.Amount;
-                await _unitOfWork.AccountRepository.UpdateAsync(account);
-            };
+                accountOrigin.Money -= transactionDTO.Amount;
+                await _unitOfWork.AccountRepository.UpdateAsync(accountOrigin);
 
-            //Ingresamos el importe a la cuenta de destino
-            toAccount.Money = toAccount.Money + transactionDTO.Amount;
-            await _unitOfWork.AccountRepository.UpdateAsync(toAccount);
+                accountDestiny.Money += transactionDTO.Amount;
+                await _unitOfWork.AccountRepository.UpdateAsync(accountDestiny);
+            } 
+            else
+                return null;
 
-            //Registramos la transacción
-            //await _transactionService.CreateTransactionAsync(transactionDTO);
-
-            //Guardamos los cambios
             await _unitOfWork.SaveChangesAsync();
 
-            return "Transferencia realizada con éxito";
+            return transactionDTO;
         }
     }
 }
