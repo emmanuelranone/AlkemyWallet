@@ -76,7 +76,7 @@ namespace AlkemyWallet.Controllers
         [ProducesResponseType(StatusCodes.Status403Forbidden)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [HttpGet("{id}")]
-        [Authorize("Admin")]
+        [Authorize(Roles = "Admin, Regular")]
         public async Task<AccountDTO> Get(int id)
         {
             return await _accountService.GetByIdAsync(id);
