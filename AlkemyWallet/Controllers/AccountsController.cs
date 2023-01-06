@@ -102,7 +102,7 @@ namespace AlkemyWallet.Controllers
             var result = await _accountService.CreateAsync(id);
 
             if (result != null)
-                return Ok();
+                return Ok(result);
              
             return BadRequest();
         }
