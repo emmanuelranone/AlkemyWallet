@@ -39,7 +39,7 @@ namespace AlkemyWallet.Controllers
         /// <response code="401">The JWT access token has not been indicated or is incorrect.</response>
         /// <response code="403">User is not authorized because isn't a administrator.</response>
         /// <response code="404">Request Failed.</response>
-        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(Transaction))]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(PagedList<TransactionPagedDTO>))]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status403Forbidden)]

@@ -3,7 +3,6 @@ using AlkemyWallet.Core.Models.DTO;
 using AlkemyWallet.Entities;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Newtonsoft.Json;
 using System.Net;
 
 namespace AlkemyWallet.Controllers;

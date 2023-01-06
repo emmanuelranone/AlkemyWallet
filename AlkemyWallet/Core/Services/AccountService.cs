@@ -87,7 +87,7 @@ namespace AlkemyWallet.Core.Services
             var deleted = await _unitOfWork.AccountRepository.Delete(id);
             if (deleted > 0)
             {
-                _unitOfWork.SaveChanges();
+                _unitOfWork.SaveChangesAsync();
                 return id;
             }
             else
