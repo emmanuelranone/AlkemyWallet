@@ -53,14 +53,14 @@ namespace AlkemyWallet.Core.Services
             }
             else
             {
-                var encryptedPassword = AuthHelper.EncryptPassword(newUser.Password);
+                //var encryptedPassword = AuthHelper.EncryptPassword(newUser.Password);
 
                 var user = new User
                 {
                     Email = newUser.Email,
                     FirstName = newUser.FirstName,
                     LastName = newUser.LastName,
-                    Password = encryptedPassword,
+                    Password = newUser.Password,
                     Points = 1,
                     RoleId = 2,
                     IsDeleted = false
