@@ -108,7 +108,7 @@ namespace AlkemyWallet.Controllers
         }
 
         /// <summary>
-        /// Get a paginated list of accounts. Only available for Administrators.
+        /// Update if user is locked or not. Only available for Administrators.
         /// </summary>
         /// <returns>Return a modified account object</returns>
         /// <response code="200">Success request</response>

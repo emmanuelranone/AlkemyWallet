@@ -20,7 +20,7 @@ namespace AlkemyWallet.Controllers
 
 
         /// <summary>
-        ///    Paged list of all registered users.  Only available for Administrators.
+        ///    Paged list of all registered users. Only available for Administrators.
         /// </summary>
         /// <remarks>
         /// Sample request: /users
@@ -93,7 +93,7 @@ namespace AlkemyWallet.Controllers
         }
 
         /// <summary>
-        ///    Return information of register user
+        ///    Return information of register user. Only available for Regular users.
         /// </summary>
         /// <remarks>
         /// Sample request: /users/5
@@ -118,7 +118,7 @@ namespace AlkemyWallet.Controllers
         }
 
         /// <summary>
-        /// Delete an existing User.
+        /// Delete an existing User. Only available for Administrators.
         /// </summary>
         /// <param name="id"></param>
         /// <returns> return id of user deleted</returns>
@@ -148,7 +148,7 @@ namespace AlkemyWallet.Controllers
         }
 
         /// <summary>
-        /// Update an existing User.
+        /// Update an existing User. Only available for Regular users.
         /// </summary>
         /// <param name="id"></param>
         /// <returns> "Updated User"</returns>
